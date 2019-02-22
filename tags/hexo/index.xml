@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hexo on LILY</title>
+    <link>https://lily-lee.github.io/tags/hexo/</link>
+    <description>Recent content in Hexo on LILY</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 11 Aug 2017 14:51:14 +0000</lastBuildDate>
+    
+	<atom:link href="https://lily-lee.github.io/tags/hexo/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hexo &#43; Github Pages, 创建个人博客</title>
+      <link>https://lily-lee.github.io/posts/hexo/</link>
+      <pubDate>Fri, 11 Aug 2017 14:51:14 +0000</pubDate>
+      
+      <guid>https://lily-lee.github.io/posts/hexo/</guid>
+      <description>&lt;h3 id=&#34;前言&#34;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;想要有一个自己的博客，拿来记平时的笔记。但是又不想去博客平台注册账号，平台那么多，选择也是件让人头大的事情。又不想自己买服务器专门搭建一个博客服务。怎么办呢，用&lt;a href=&#34;https://hexo.io/zh-cn&#34;&gt;Hexo&lt;/a&gt; + &lt;a href=&#34;https://pages.github.com/&#34;&gt;Github Pages&lt;/a&gt;，就可以很容易的拥有一个自己的博客了。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

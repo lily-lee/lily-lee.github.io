@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LILY</title>
+    <link>https://lily-lee.github.io/</link>
+    <description>Recent content on LILY</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 16 Jan 2019 15:20:58 +0800</lastBuildDate>
+    
+	<atom:link href="https://lily-lee.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>天呐！</title>
+      <link>https://lily-lee.github.io/others/amaze/</link>
+      <pubDate>Wed, 16 Jan 2019 15:20:58 +0800</pubDate>
+      
+      <guid>https://lily-lee.github.io/others/amaze/</guid>
+      <description>那会儿看公司的github，看到一个commit作者的头像跟我目前用着的博客主题原来的图片长得一样。
+然后点进去看了那个人的github主页，有个人页面。
+然后发现跟我用着的博客主题一样。
+问了一个同事认不认识这个人，说认识。
+是公司的前员工。
+我说，这个人跟我博客主题一样诶～
+然后一起在他github发现他就是这个博客主题的作者！
+天呐！
+附一个链接yii.im</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://lily-lee.github.io/about/</link>
+      <pubDate>Sun, 22 Jul 2018 15:48:52 +0800</pubDate>
+      
+      <guid>https://lily-lee.github.io/about/</guid>
+      <description>Stay hungry, stay foolish.</description>
+    </item>
+    
+    <item>
+      <title>Hexo &#43; Github Pages, 创建个人博客</title>
+      <link>https://lily-lee.github.io/posts/hexo/</link>
+      <pubDate>Fri, 11 Aug 2017 14:51:14 +0000</pubDate>
+      
+      <guid>https://lily-lee.github.io/posts/hexo/</guid>
+      <description>&lt;h3 id=&#34;前言&#34;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;想要有一个自己的博客，拿来记平时的笔记。但是又不想去博客平台注册账号，平台那么多，选择也是件让人头大的事情。又不想自己买服务器专门搭建一个博客服务。怎么办呢，用&lt;a href=&#34;https://hexo.io/zh-cn&#34;&gt;Hexo&lt;/a&gt; + &lt;a href=&#34;https://pages.github.com/&#34;&gt;Github Pages&lt;/a&gt;，就可以很容易的拥有一个自己的博客了。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

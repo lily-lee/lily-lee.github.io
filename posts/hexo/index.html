@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Hexo &#43; Github Pages, 创建个人博客 &middot; LILY </title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.43-DEV" />
+
+
+<link rel="stylesheet" href="https://lily-lee.github.io/css/vec.css">
+
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="LILY" />
+
+</head>
+
+<body>
+  <header>
+  <nav>
+    <ul>
+      
+      
+      <li class="pull-left ">
+        <a href="https://lily-lee.github.io">/home/lily</a>
+      </li>
+      
+      
+      <li class="pull-left current">
+        <a href="/posts">~/posts</a>
+      </li>
+      
+      
+      <li class="pull-left ">
+        <a href="/categories">~/categories</a>
+      </li>
+      
+      
+      <li class="pull-left ">
+        <a href="/tags">~/tags</a>
+      </li>
+      
+      
+      <li class="pull-left ">
+        <a href="/about">~/about</a>
+      </li>
+      
+      
+      <li class="pull-left ">
+        <a href="/others">~/others</a>
+      </li>
+      
+  
+      <li class="pull-right"><a href=""><i class="fas fa-rss"></i></a></li>
+    </ul>
+  </nav>
+</header>
+  <div class="content wide">
+    
+    
+    <section class="post">
+      <h1 class="post-title"><a href="https://lily-lee.github.io/posts/hexo/">Hexo &#43; Github Pages, 创建个人博客</a></h1>
+      <span class="post-date">2017-08-11 14:51:14</span>
+      <div class="post-content">
+        <h3 id="前言">前言</h3>
+
+<p>想要有一个自己的博客，拿来记平时的笔记。但是又不想去博客平台注册账号，平台那么多，选择也是件让人头大的事情。又不想自己买服务器专门搭建一个博客服务。怎么办呢，用<a href="https://hexo.io/zh-cn">Hexo</a> + <a href="https://pages.github.com/">Github Pages</a>，就可以很容易的拥有一个自己的博客了。</p>
+
+<p></p>
+
+<h3 id="简介">简介</h3>
+
+<p><a href="https://hexo.io/zh-cn">Hexo</a>是一款Node.js开发的博客框架。它快速、简洁、高效，支持Markdown语法，是一款简单易用的博客框架。既可以部署到自己的服务器，又可以生成静态资源文件，放在Github Pages当作个人博客使用，无需自己买服务器部署。</p>
+
+<p><a href="https://pages.github.com/">Github Pages</a>支持创建自己的静态页面，并提供Github的二级域名访问。</p>
+
+<h3 id="安装和使用">安装和使用</h3>
+
+<h4 id="node-js-npm">Node.js + npm</h4>
+
+<p>安装<a href="https://nodejs.org/en/">Node.js</a>和npm请详见<a href="https://nodejs.org/en/">Node.js官网</a>，<a href="https://hexo.io/zh-cn">Hexo</a>官网也有相关的介绍说明。这里我们从Hexo的安装开始介绍。</p>
+
+<h4 id="git">Git</h4>
+
+<p>因为我们使用 Github Pages 服务做博客，所以 git 是必须安装的。
+如果没有安装的话，去 <a href="https://git-scm.com/download/">git 官网下载</a>安装即可。
+mac 可以直接用 <code>brew install git</code> 命令安装。
+Git 的使用教程不再此文范围内，所以不做介绍。推荐<a href="https://git-scm.com/docs">官网手册</a>和<a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">廖雪峰的Git学习教程</a>。廖大神写了对Git的介绍到安装到使用详细且易懂的教程。</p>
+
+<h4 id="hexo">Hexo</h4>
+
+<h5 id="安装hexo">安装Hexo</h5>
+
+<pre><code class="language-bash">$ sudo npm install hexo-cli -g
+</code></pre>
+
+<h5 id="用hexo创建一个博客项目">用Hexo创建一个博客项目</h5>
+
+<pre><code class="language-bash">$ hexo init &lt;blog-folder&gt;
+</code></pre>
+
+<h5 id="启动博客服务">启动博客服务</h5>
+
+<p>用<code>hexo init</code> 创建好项目之后，进入项目目录<code>cd &lt;blog-folder&gt;</code>
+然后输入命令<code>hexo server</code> 或者 <code>hexo s</code>便可以启动博客服务。</p>
+
+<pre><code class="language-bash">$ hexo server
+</code></pre>
+
+<p>启动成功后有提示:</p>
+
+<pre><code class="language-bash">INFO  Start processing
+INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.
+</code></pre>
+
+<p>浏览器访问 <code>http://localhost:4000</code>便可以看到博客页面了。</p>
+
+<h5 id="创建一篇文章">创建一篇文章</h5>
+
+<pre><code class="language-bash">$ hexo new &lt;filename&gt;
+</code></pre>
+
+<p>此命令执行完之后，会在生成 <code>source/_posts/filename.md</code> 文件。用编辑器打开文件，开始编辑文档内容，这便是博客文档的编辑了。推荐使用 <a href="http://www.appinn.com/markdown/">Markdown 语法</a>。</p>
+
+<h5 id="创建一个页面">创建一个页面</h5>
+
+<pre><code class="language-bash">$ hexo new page &lt;page-folder-name&gt;
+</code></pre>
+
+<p>此命令执行完之后，会在生成 <code>source/&lt;page-folder-name&gt;/index.md</code> 文件。</p>
+
+<h4 id="next主题安装">Next主题安装</h4>
+
+<pre><code class="language-bash">$ git clone https://github.com/iissnan/hexo-theme-next themes/next
+</code></pre>
+
+<p>关于博客主题，博主选了很久决定用 Next，简洁大方不花哨。
+这里给一个其他主题介绍的传送门:
+ 1. <a href="https://www.zhihu.com/question/24422335">我是知乎的传送门,请点我</a>
+ 2. <a href="https://github.com/hexojs/hexo/wiki/Themes">我是 github 的传送门,请点我</a></p>
+
+<h3 id="配置">配置</h3>
+
+<h4 id="hexo-配置">Hexo 配置</h4>
+
+<p>Hexo的配置文档为 <code>_config.yml</code>
+这里介绍几个主要的配置项：</p>
+
+<h5 id="site基本信息配置">Site基本信息配置：</h5>
+
+<pre><code class="language-yaml"># Site
+title: 你的博客的名字
+subtitle: 你的博客的subtitle
+description: 你的博客的描述
+author: 你的名字
+language: zh-Hans # 语言，默认是en。这个是简体中文
+timezone: 时区 # 默认是电脑的时区
+favicon: /favicon.ico  # 把favicon.ico文件拷贝至source下，这个默认的路径。
+avatar: /avatar.jpg # 把你的头像图片拷贝到source目录下。名字你自己定。
+
+# URL
+## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
+url: 你的 Github Pages 访问地址。
+</code></pre>
+
+<h5 id="博客主题配置">博客主题配置：</h5>
+
+<pre><code class="language-yaml"># Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+theme: next # 配置你的主题为 next
+</code></pre>
+
+<h5 id="博客部署配置项">博客部署配置项：</h5>
+
+<pre><code class="language-yaml"># Deployment
+## Docs: https://hexo.io/docs/deployment.html
+deploy:
+  type: git # 我们要用 Github Pages，所以这里 type 为 git
+  repo: 你的 github repository 的地址 # 查看code，有一个绿色的 clone or download, 我选的是https
+  branch: master
+</code></pre>
+
+<p><a href="https://hexo.io/zh-cn/docs/configuration.html">点击这里可以带你去Hexo官方的配置文件介绍</a></p>
+
+<h4 id="next-配置">Next 配置</h4>
+
+<p>Next的配置文档为 <code>themes/next/_config.yml</code>
+同样这里只介绍介个主要的配置项：</p>
+
+<h5 id="menu-设置">menu 设置</h5>
+
+<pre><code class="language-yaml"># ---------------------------------------------------------------
+# Menu Settings
+# ---------------------------------------------------------------
+
+# When running the site in a subdirectory (e.g. domain.tld/blog), remove the leading slash (/archives -&gt; archives)
+menu:
+  home: /
+  categories: /categories/ # 启用分类
+  tags: /tags/ # 启用标签
+  archives: /archives/ # 启用归档， hexo 按时间归档
+  about: /about/ # 启用关于
+</code></pre>
+
+<p>要启用这些 menu，需要 hexo 创建好这几个 page:</p>
+
+<pre><code class="language-bash">$ hexo new page categories # 生成 source/categories/index.md
+$ hexo new page tags # 生成 source/tags/index.md
+$ hexo new page about # 生成 source/about/index.md
+</code></pre>
+
+<p><code>archives</code>是 hexo 会默认有的</p>
+
+<p>创建好之后这些page后，需要对tags和categories下的index.md稍作修改</p>
+
+<pre><code class="language-markdown">source/categories/index.md:
+---
+title: categories
+date: 2017-08-11 16:49:50
+type: &quot;categories&quot;
+comments: false
+---
+
+source/tags/index.md: 
+---
+title: tags
+date: 2017-08-11 16:49:50
+type: &quot;tags&quot;
+comments: false
+---
+</code></pre>
+
+<p>修改scaffolds/post.md, 添加上</p>
+
+<pre><code class="language-markdown">tags:
+categories:
+</code></pre>
+
+<p>这两项，然后用 <code>hexo new</code> 创建文章后，在tags: 后添加 tag，在 categories: 后添加分类，就行了。单个 tag 或 分类，可以直接写，如果是多个的话，写成[a,b,c]这种形式。</p>
+
+<h5 id="博客样式设置">博客样式设置</h5>
+
+<pre><code class="language-yaml"># ---------------------------------------------------------------
+# Scheme Settings
+# ---------------------------------------------------------------
+
+# Schemes
+#scheme: Muse
+#scheme: Mist
+#scheme: Pisces
+scheme: Gemini
+</code></pre>
+
+<p>Next官方给出了四种可选方案，博主把这四个都试了一遍，决定用第四个，Gemini。启用的方式就是去掉注释，把不要的注释掉。</p>
+
+<h5 id="文章折叠">文章折叠</h5>
+
+<pre><code class="language-yaml"># Automatically Excerpt. Not recommend.
+# Please use &lt;!-- more --&gt; in the post to control excerpt accurately.
+auto_excerpt:
+  enable: false
+  length: 150
+</code></pre>
+
+<p>默认是显示全文的。官方给出两个解决方案，一个是将  <code>auto_excerpt</code> 里的 <code>enable</code> 设置为 <code>true</code>。但是这种方式不推荐，会将你文章的格式去掉。官方推荐的做法是，在你文档中想要折叠提示&rdquo;阅读全文&rdquo;的地方加上<code>&lt;!--more--&gt;</code>。</p>
+
+<h5 id="开启文章版权声明">开启文章版权声明</h5>
+
+<pre><code class="language-yaml"># Declare license on posts
+post_copyright:
+  enable: true # 把这个项设置为true
+  license: CC BY-NC-SA 3.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/3.0/
+</code></pre>
+
+<p>开启之后，会在每一篇文章中显示版权声明。</p>
+
+<h5 id="开启social-network-links">开启social network links</h5>
+
+<pre><code class="language-yaml"># Social Links
+# Key is the link label showing to end users.
+# Value is the target link (E.g. GitHub: https://github.com/iissnan)
+social: # 去掉这里的注释
+  #LinkLabel: Link
+  GitHub: 你的github主页地址
+</code></pre>
+
+<p>博主只加了github主页地址。其他的参见配置文档的说明。</p>
+
+<p><a href="http://theme-next.iissnan.com/theme-settings.html">点击这里可以带你去Next官方的主题设置教程</a></p>
+
+<h3 id="创建-github-pages">创建 Github Pages</h3>
+
+<p>首先要有一个 Github 账号。然后创建一个 repository。你可以在 Github 上看到 绿色的 <code>new repository</code>。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/767211-69e684fc684fbcb2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+
+<p>点击之后进入创建页面：</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/767211-b92d9135080afade.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+
+<p>取一个名字，勾选 Initialize this repository with a README，然后点击绿色的创建。</p>
+
+<p>创建完之后，到 Settings 选项：</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/767211-e572cdebbcec3455.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+
+<p>到 Github Pages 那一项去：</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/767211-dbd2c77e2c9385a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+
+<p>选择 <code>master branch</code> ，然后点击 <code>save</code>。然后你会看到一个你 Pages 主页的地址。这就是你以后的博客访问地址了。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/767211-8707c24ece7336b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+
+<h3 id="部署至-github-pages">部署至 Github Pages</h3>
+
+<p>前面配置章节讲了如何配置 Hexo 的 repo，所以这时候，当我们准备好时，先执行 <code>hexo clean</code> 清掉之前的数据和页面，再执行 <code>hexo generate</code> 生产新的页面, 最后执行部署命令 <code>hexo deploy</code>，便成功部署到了 Github Pages。
+即:</p>
+
+<pre><code class="language-bash">$ hexo clean
+$ hexo generate
+$ hexo deploy
+</code></pre>
+
+<p>Github Pages 有短时间的缓存，所以稍等片刻，访问我们的 Github Pages 页面，就可以看到博客页面啦。</p>
+
+<h3 id="尾声">尾声</h3>
+
+<p>至此，我们便成功拥有了一个属于自己的博客。
+可以将博客项目提交到 Github 管理，作为自己的博客备份，这样在可以使用网络和电脑的地方我们都可以方便的写博客了。</p>
+
+<p>此外，除了 Github 提供 Pages 这样的服务，国内的 Coding 也提供有 <a href="https://coding.net/help/doc/pages">Coding Pages</a> 可以用哦。</p>
+      </div>
+    </section>
+    
+    <section class="pagination clearfix">
+       
+      
+    </section>
+    
+    
+<section id="disqus_thread" class='disqus'></section>
+<script>
+  var disqus_config = function () {
+    this.page.url = "https://lily-lee.github.io/posts/hexo/";
+    
+  };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = '//lilylee.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+  </div>
+  
+  <footer>
+  <div class="footer-info">
+    <p>
+      <a href="mailto:lilylee88756@gmail.com?subject="><i class="far fa-envelope"></i> lilylee88756@gmail.com </a>
+      {
+        <a href="https://gohugo.io/" title="Hugo :: A fast and modern static website engine">Hugo 0.43-DEV</a>,
+        <a href="https://github.com/IvanChou/yii.im" title="vec">Vec</a> 
+      }
+      {<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/" title="CC BY-NC-ND 3.0">CC BY-NC-ND 3.0</a>}
+    </p>
+  </div>
+</footer>
+  
+  <script src="https://lily-lee.github.io/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+
+</body>
+
+</html>
