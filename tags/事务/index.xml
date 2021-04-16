@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>事务 on Lily&#39;s Blog</title>
+    <link>https://lily-lee.github.io/tags/%E4%BA%8B%E5%8A%A1/</link>
+    <description>Recent content in 事务 on Lily&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 16 Apr 2021 15:38:15 +0800</lastBuildDate><atom:link href="https://lily-lee.github.io/tags/%E4%BA%8B%E5%8A%A1/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>事务 (一)</title>
+      <link>https://lily-lee.github.io/post/notes/transaction/transaction_1/</link>
+      <pubDate>Fri, 16 Apr 2021 15:38:15 +0800</pubDate>
+      
+      <guid>https://lily-lee.github.io/post/notes/transaction/transaction_1/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;h2 id=&#34;事务的概念&#34;&gt;事务的概念&lt;/h2&gt;
+&lt;h3 id=&#34;什么是事务&#34;&gt;什么是事务&lt;/h3&gt;
+&lt;p&gt;事务是指作为单个逻辑工作单元执行的一系列操作，这些操作要么完全被执行，要么完全不执行。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

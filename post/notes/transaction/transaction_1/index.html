@@ -1,0 +1,443 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> 
+    <title>事务 (一) - Lily&#39;s Blog</title>
+    <meta name="keywords" content="独立,博客,程序员,架构师,个人,思考,读书,笔记,技术,分享,Golang,Java">
+    
+    <meta property="og:title" content="事务 (一)">
+    <meta property="og:site_name" content="Lily&#39;s Blog">
+    <meta property="og:image" content="/img/author.jpg"> 
+    <meta name="title" content="事务 (一) - Lily&#39;s Blog" />
+    <meta name="description" content="Lily&#39;s Blog | 博客 | 软件 | 架构 | Golang | Java "> 
+    <link rel="shortcut icon" href="https://lily-lee.github.io/img/favicon.ico" />
+    <link rel="apple-touch-icon" href="https://lily-lee.github.io/img/apple-touch-icon.png" />
+    <link rel="apple-touch-icon-precomposed" href="https://lily-lee.github.io/img/apple-touch-icon.png" />
+    <link href="https://lily-lee.github.io/js/vendor/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+    
+    <link href="https://lily-lee.github.io/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="https://lily-lee.github.io/css/syntax.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: false, 
+    motion: true
+  };
+</script>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<div class="container one-collumn sidebar-position-left page-home  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-meta  custom-logo ">
+
+  <div class="custom-logo-site-title">
+    <a href="https://lily-lee.github.io"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lily&#39;s Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Lily&#39;s personal blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+    <ul id="menu" class="menu">
+      
+      
+        <li class="menu-item ">
+          <a href="https://lily-lee.github.io/" rel="section">
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页
+          </a>
+        </li>
+      
+        <li class="menu-item ">
+          <a href="https://lily-lee.github.io/post/" rel="section">
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档
+          </a>
+        </li>
+      
+        <li class="menu-item ">
+          <a href="https://lily-lee.github.io/about/" rel="section">
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于
+          </a>
+        </li>
+      
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger"> <i class="menu-item-icon fa fa-search fa-fw"></i> <br /> 搜索</a>
+      </li>
+    </ul>
+    <div class="site-search">
+      <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+    </div>
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+<section id="posts" class="posts-expand">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link" href="https://lily-lee.github.io/post/notes/transaction/transaction_1/" itemprop="url">
+        事务 (一)
+        </a>
+      </h1>
+      <div class="post-meta">
+      <span class="post-time">
+<span class="post-meta-item-icon">
+    <i class="fa fa-calendar-o"></i>
+</span>
+<span class="post-meta-item-text">时间：</span>
+<time itemprop="dateCreated" datetime="2016-03-22T13:04:35+08:00" content="2021-04-16">
+    2021-04-16
+</time>
+</span> 
+      
+
+  <span class="post-category" >
+  &nbsp; | &nbsp;
+  <span class="post-meta-item-icon">
+    <i class="fa fa-folder-o"></i>
+  </span>
+  <span class="post-meta-item-text">分类：</span>
+  
+    <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+      <a href="https://lily-lee.github.io/categories/%E7%AC%94%E8%AE%B0" itemprop="url" rel="index">
+        <span itemprop="name">笔记</span>
+      </a>
+      &nbsp; 
+    </span>
+  
+</span>
+
+
+       <span>
+&nbsp; | &nbsp;
+<span class="post-meta-item-icon">
+    <i class="fa fa-eye"></i>
+</span>
+<span class="post-meta-item-text">阅读：</span>
+<span class="leancloud-visitors-count">985 字 ~2分钟</span>
+</span>
+      </div>
+    </header>
+    <div class="post-body" itemprop="articleBody">
+    <!-- raw HTML omitted -->
+<h2 id="事务的概念">事务的概念</h2>
+<h3 id="什么是事务">什么是事务</h3>
+<p>事务是指作为单个逻辑工作单元执行的一系列操作，这些操作要么完全被执行，要么完全不执行。</p>
+<h3 id="为什么需要事务">为什么需要事务</h3>
+<p>一个转账的例子：</p>
+<p>小王给小李转账1000块，需要分两步：</p>
+<ol>
+<li>
+<p>小王的账户扣1000块；</p>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#8b008b;font-weight:bold">UPDATE</span> `accounts` <span style="color:#8b008b;font-weight:bold">set</span> `balance` = `balance` - <span style="color:#b452cd">1000</span> <span style="color:#8b008b;font-weight:bold">where</span> `name` = <span style="color:#cd5555">&#39;小王&#39;</span>;
+</code></pre></div></li>
+<li>
+<p>小李的账户增加1000块</p>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#8b008b;font-weight:bold">UPDATE</span> `accounts` <span style="color:#8b008b;font-weight:bold">set</span> `balance` = `balance` + <span style="color:#b452cd">1000</span> <span style="color:#8b008b;font-weight:bold">where</span> `name` = <span style="color:#cd5555">&#39;小李&#39;</span>;
+</code></pre></div></li>
+</ol>
+<p>如果在这个过程中出了问题，比如小王账户扣1000后给小李账户增加1000失败了，怎么办呢？需要回滚小王账户的扣款。</p>
+<p>这时候就需要事务了，整个转账过程就是一个逻辑工作单元，一个失败了就全部失败，两个都成功才允许成功。</p>
+<h2 id="并发事务导致的问题">并发事务导致的问题</h2>
+<p>脏读：A事务读取到了B事务更新的数据，然后B回滚操作，那么A读到的数据是脏数据</p>
+<p>不可重复读：事务A多次读取同一数据，事务B在事务A多次读取的过程中对此数据做了更新，导致事务A多次读取同一数据的值不一样。</p>
+<p>幻读：事务A更新数据库的数据，更新过程中事务B向数据库插入了一条数据，A更新完数据之后发现还有一条记录没有改过来，就行发生了幻觉一样。</p>
+<h3 id="事务遵循的原则">事务遵循的原则</h3>
+<p><strong>ACID</strong> 原则</p>
+<ul>
+<li>
+<p><strong>A - Atomicity 原子性</strong></p>
+<p>一个事务必须被视为一个不可分割的最小工作单元，整个事务是一个不可分割的整体，就像化学中的原子，是物质构成的基本单位。整个事务中的所有操作要么全部提交成功，要么全部失败回滚，对于一个事务来说，不可能只执行其中的一部分操作。这就是事务的原子性。</p>
+</li>
+<li>
+<p><strong>C - Consistency 一致性</strong></p>
+<p>一致性指事务操作前后，直到成功提交前，数据表中的数据不会发生变化。</p>
+<p><strong>事务开始前和结束后，数据库的完整性约束没有被破坏 。比如A向B转账，不可能A扣了钱，B却没收到。</strong></p>
+<p>数据库总是从一个一致性的状态转移到另一个一致性的状态。在前面的例子 中，一次性确保了，即使在执行第三、四条语句之间时系统崩溃，支票账户也不会损失200美元，因为事务始终没有提交，所以事务中所做的修改也不会保存到数据库中。</p>
+</li>
+<li>
+<p><strong>I - Isolation 隔离性</strong></p>
+<p>隔离性指指一个事务在完成前对其他事务是不可见的。</p>
+</li>
+<li>
+<p><strong>D -  Durability 持久性</strong></p>
+<p>持久性指一旦事务提交则会永久保存在数据库中。</p>
+</li>
+</ul>
+<h2 id="事务的隔离级别">事务的隔离级别</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">隔离级别</th>
+<th style="text-align:center">脏读</th>
+<th style="text-align:center">不可重复读</th>
+<th style="text-align:center">幻读</th>
+<th style="text-align:center">锁</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">读未提交（Read Uncommitted）</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:left">读已提交（Read Committed）</td>
+<td style="text-align:center">✖️</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">写：行锁</td>
+</tr>
+<tr>
+<td style="text-align:left">可重复读（Repeatable Read）</td>
+<td style="text-align:center">✖️</td>
+<td style="text-align:center">✖️</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">写：锁表</td>
+</tr>
+<tr>
+<td style="text-align:left">可串行化（Serializable）</td>
+<td style="text-align:center">✖️</td>
+<td style="text-align:center">✖️</td>
+<td style="text-align:center">✖️</td>
+<td style="text-align:center">读写：锁表</td>
+</tr>
+</tbody>
+</table>
+<p>MySQL默认的隔离级别为“可重复读”</p>
+    </div>
+    <footer class="post-footer">
+     
+<div class="post-tags">     
+     
+    <a href="https://lily-lee.github.io/tags/%e4%ba%8b%e5%8a%a1" rel="tag" title="事务">#事务#</a>
+    
+</div>
+
+
+     <div class="post-nav">
+    <div class="post-nav-next post-nav-item">
+    
+    </div>
+
+    <div class="post-nav-prev post-nav-item">
+    
+        <a href="https://lily-lee.github.io/about/" rel="prev" title="About">
+        About <i class="fa fa-chevron-right"></i>
+        </a>
+    
+    </div>
+</div>
+      
+     
+     
+     
+
+
+
+
+
+
+    </footer>
+  </article>
+</section>
+
+          </div>
+        </div>
+        <div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+  <ul class="sidebar-nav motion-element">
+    <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+      文章目录
+    </li>
+    <li class="sidebar-nav-overview" data-target="site-overview">
+      站点概览
+    </li>
+  </ul>
+
+    <section class="site-overview sidebar-panel ">
+      <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+        src="https://lily-lee.github.io/images/avatar.jpg"
+        alt="lilylee" />
+    <p class="site-author-name" itemprop="name">lilylee</p>
+    <p class="site-description motion-element" itemprop="description"> 
+        I have cats and dogs</p>
+</div>
+      <nav class="site-state motion-element">
+    <div class="site-state-item site-state-posts">
+      <a href="https://lily-lee.github.io/post/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">日志</span>
+      </a>
+    </div>
+    <div class="site-state-item site-state-categories">    
+        <a href="https://lily-lee.github.io/categories/">      
+         
+        <span class="site-state-item-count">1</span>
+        
+        <span class="site-state-item-name">分类</span>
+        
+        </a>
+    </div>
+
+    <div class="site-state-item site-state-tags">
+        <a href="https://lily-lee.github.io/tags/">
+         
+        <span class="site-state-item-count">3</span>
+        
+        <span class="site-state-item-name">标签</span>
+        </a>
+    </div>
+</nav>
+      
+      
+<div class="links-of-author motion-element">
+    
+        <span class="links-of-author-item">
+        <a href="https://github.com/lily-lee/" target="_blank" title="GitHub">
+            <i class="fa fa-fw fa-github"></i>
+            GitHub
+        </a>
+        </span>
+    
+</div>
+
+
+      
+
+      
+    </section>
+    
+<section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+    <div class="post-toc">
+        <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#事务的概念">事务的概念</a>
+      <ul>
+        <li><a href="#什么是事务">什么是事务</a></li>
+        <li><a href="#为什么需要事务">为什么需要事务</a></li>
+      </ul>
+    </li>
+    <li><a href="#并发事务导致的问题">并发事务导致的问题</a>
+      <ul>
+        <li><a href="#事务遵循的原则">事务遵循的原则</a></li>
+      </ul>
+    </li>
+    <li><a href="#事务的隔离级别">事务的隔离级别</a></li>
+  </ul>
+</nav></div>
+    </div>
+</section>
+
+  </div>
+</aside>
+
+      </div>
+    </main>
+   
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  <span itemprop="copyrightYear">  &copy; 
+  2009 - 2021</span>
+  <span class="with-love"><i class="fa fa-heart"></i></span>
+  <span class="author" itemprop="copyrightHolder">Lily&#39;s Blog</span>
+</div>
+<div class="powered-by">
+  Powered by - <a class="theme-link" href="http://gohugo.io" target="_blank" title="hugo" >Hugo v0.82.0</a>
+</div>
+<div class="theme-info">
+  Theme by - <a class="theme-link" href="https://github.com/xtfly/hugo-theme-next" target="_blank"> NexT
+  </a>
+</div>
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+      <span id="scrollpercent"><span>0</span>%</span>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/vendor/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/vendor/fastclick/lib/fastclick.min.js?v=1.0.6"></script> 
+<script type="text/javascript" src="https://lily-lee.github.io/js/vendor/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/vendor/velocity/velocity.min.js?v=1.2.1"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/vendor/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="https://lily-lee.github.io/js/vendor/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+
+<script type="text/javascript" src="https://lily-lee.github.io/js/utils.js"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/motion.js"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/affix.js"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/schemes/pisces.js"></script>
+
+<script type="text/javascript" src="https://lily-lee.github.io/js/scrollspy.js"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/post-details.js"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/toc.js"></script>
+
+<script type="text/javascript" src="https://lily-lee.github.io/js/bootstrap.js"></script>
+
+<script type="text/javascript" src="https://lily-lee.github.io/js/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'] ],
+      displayMath: [ ['$$','$$'] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { fonts: ["TeX"] }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML' async></script>
+</body>
+</html>

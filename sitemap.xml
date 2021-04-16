@@ -1,73 +1,83 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  <url>
-    <loc>https://lily-lee.github.io/others/amaze/</loc>
-    <lastmod>2019-01-16T15:20:58+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://lily-lee.github.io/about/</loc>
-    <lastmod>2018-07-22T15:48:52+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://lily-lee.github.io/posts/hexo/</loc>
-    <lastmod>2017-08-11T14:51:14+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://lily-lee.github.io/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://lily-lee.github.io/tags/github-pages/</loc>
-    <lastmod>2017-08-11T14:51:14+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://lily-lee.github.io/tags/hexo/</loc>
-    <lastmod>2017-08-11T14:51:14+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://lily-lee.github.io/</loc>
-    <lastmod>2019-01-16T15:20:58+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://lily-lee.github.io/others/</loc>
-    <lastmod>2019-01-16T15:20:58+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://lily-lee.github.io/posts/</loc>
-    <lastmod>2017-08-11T14:51:14+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://lily-lee.github.io/tags/</loc>
-    <lastmod>2017-08-11T14:51:14+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://lily-lee.github.io/categories/%E4%B8%AA%E4%BA%BA/</loc>
-    <lastmod>2019-01-16T15:20:58+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://lily-lee.github.io/categories/%E6%8A%80%E6%9C%AF/</loc>
-    <lastmod>2017-08-11T14:51:14+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-</urlset>
+<search>
+    
+     <entry>
+        <title>事务 (一)</title>
+        <url>https://lily-lee.github.io/post/notes/transaction/transaction_1/</url>
+        <categories>
+          <category>笔记</category>
+        </categories>
+        <tags>
+          <tag>事务</tag>
+        </tags>
+        <content type="html"> 事务的概念 什么是事务 事务是指作为单个逻辑工作单元执行的一系列操作，这些操作要么完全被执行，要么完全不执行。
+为什么需要事务 一个转账的例子：
+小王给小李转账1000块，需要分两步：
+  小王的账户扣1000块；
+UPDATE `accounts` set `balance` = `balance` - 1000 where `name` = &amp;#39;小王&amp;#39;;   小李的账户增加1000块
+UPDATE `accounts` set `balance` = `balance` &#43; 1000 where `name` = &amp;#39;小李&amp;#39;;   如果在这个过程中出了问题，比如小王账户扣1000后给小李账户增加1000失败了，怎么办呢？需要回滚小王账户的扣款。
+这时候就需要事务了，整个转账过程就是一个逻辑工作单元，一个失败了就全部失败，两个都成功才允许成功。
+并发事务导致的问题 脏读：A事务读取到了B事务更新的数据，然后B回滚操作，那么A读到的数据是脏数据
+不可重复读：事务A多次读取同一数据，事务B在事务A多次读取的过程中对此数据做了更新，导致事务A多次读取同一数据的值不一样。
+幻读：事务A更新数据库的数据，更新过程中事务B向数据库插入了一条数据，A更新完数据之后发现还有一条记录没有改过来，就行发生了幻觉一样。
+事务遵循的原则 ACID 原则
+  A - Atomicity 原子性
+一个事务必须被视为一个不可分割的最小工作单元，整个事务是一个不可分割的整体，就像化学中的原子，是物质构成的基本单位。整个事务中的所有操作要么全部提交成功，要么全部失败回滚，对于一个事务来说，不可能只执行其中的一部分操作。这就是事务的原子性。
+  C - Consistency 一致性
+一致性指事务操作前后，直到成功提交前，数据表中的数据不会发生变化。
+事务开始前和结束后，数据库的完整性约束没有被破坏 。比如A向B转账，不可能A扣了钱，B却没收到。
+数据库总是从一个一致性的状态转移到另一个一致性的状态。在前面的例子 中，一次性确保了，即使在执行第三、四条语句之间时系统崩溃，支票账户也不会损失200美元，因为事务始终没有提交，所以事务中所做的修改也不会保存到数据库中。
+  I - Isolation 隔离性
+隔离性指指一个事务在完成前对其他事务是不可见的。
+  D - Durability 持久性
+持久性指一旦事务提交则会永久保存在数据库中。
+  事务的隔离级别    隔离级别 脏读 不可重复读 幻读 锁     读未提交（Read Uncommitted） ✔️ ✔️ ✔️    读已提交（Read Committed） ✖️ ✔️ ✔️ 写：行锁   可重复读（Repeatable Read） ✖️ ✖️ ✔️ 写：锁表   可串行化（Serializable） ✖️ ✖️ ✖️ 读写：锁表    MySQL默认的隔离级别为“可重复读”
+</content>
+    </entry>
+    
+     <entry>
+        <title>Hexo &#43; Github Pages, 创建个人博客</title>
+        <url>https://lily-lee.github.io/post/notes/hexo/</url>
+        <categories>
+          <category>笔记</category>
+        </categories>
+        <tags>
+          <tag>hexo</tag><tag>github pages</tag>
+        </tags>
+        <content type="html"> 前言 想要有一个自己的博客，拿来记平时的笔记。但是又不想去博客平台注册账号，平台那么多，选择也是件让人头大的事情。又不想自己买服务器专门搭建一个博客服务。怎么办呢，用Hexo &#43; Github Pages，就可以很容易的拥有一个自己的博客了。
+简介 Hexo是一款Node.js开发的博客框架。它快速、简洁、高效，支持Markdown语法，是一款简单易用的博客框架。既可以部署到自己的服务器，又可以生成静态资源文件，放在Github Pages当作个人博客使用，无需自己买服务器部署。
+Github Pages支持创建自己的静态页面，并提供Github的二级域名访问。
+安装和使用 Node.js &#43; npm 安装Node.js和npm请详见Node.js官网，Hexo官网也有相关的介绍说明。这里我们从Hexo的安装开始介绍。
+Git 因为我们使用 Github Pages 服务做博客，所以 git 是必须安装的。 如果没有安装的话，去 git 官网下载安装即可。 mac 可以直接用 brew install git 命令安装。 Git 的使用教程不再此文范围内，所以不做介绍。推荐官网手册和廖雪峰的Git学习教程。廖大神写了对Git的介绍到安装到使用详细且易懂的教程。
+Hexo 安装Hexo $ sudo npm install hexo-cli -g 用Hexo创建一个博客项目 $ hexo init &amp;lt;blog-folder&amp;gt; 启动博客服务 用hexo init 创建好项目之后，进入项目目录cd &amp;lt;blog-folder&amp;gt; 然后输入命令hexo server 或者 hexo s便可以启动博客服务。
+$ hexo server 启动成功后有提示:
+INFO Start processing INFO Hexo is running at http://localhost:4000/. Press Ctrl&#43;C to stop. 浏览器访问 http://localhost:4000便可以看到博客页面了。
+创建一篇文章 $ hexo new &amp;lt;filename&amp;gt; 此命令执行完之后，会在生成 source/_posts/filename.md 文件。用编辑器打开文件，开始编辑文档内容，这便是博客文档的编辑了。推荐使用 Markdown 语法。
+创建一个页面 $ hexo new page &amp;lt;page-folder-name&amp;gt; 此命令执行完之后，会在生成 source/&amp;lt;page-folder-name&amp;gt;/index.md 文件。
+Next主题安装 $ git clone https://github.com/iissnan/hexo-theme-next themes/next 关于博客主题，博主选了很久决定用 Next，简洁大方不花哨。 这里给一个其他主题介绍的传送门:
+ 我是知乎的传送门,请点我 我是 github 的传送门,请点我  配置 Hexo 配置 Hexo的配置文档为 _config.yml 这里介绍几个主要的配置项：
+Site基本信息配置： # Sitetitle:你的博客的名字subtitle:你的博客的subtitledescription:你的博客的描述author:你的名字language:zh-Hans# 语言，默认是en。这个是简体中文timezone:时区# 默认是电脑的时区favicon:/favicon.ico # 把favicon.ico文件拷贝至source下，这个默认的路径。avatar:/avatar.jpg# 把你的头像图片拷贝到source目录下。名字你自己定。# URL## If your site is put in a subdirectory, set url as &amp;#39;http://yoursite.com/child&amp;#39; and root as &amp;#39;/child/&amp;#39;url:你的 Github Pages 访问地址。博客主题配置： # Extensions## Plugins: https://hexo.io/plugins/## Themes: https://hexo.io/themes/theme:next# 配置你的主题为 next博客部署配置项： # Deployment## Docs: https://hexo.io/docs/deployment.htmldeploy:type:git# 我们要用 Github Pages，所以这里 type 为 gitrepo:你的 github repository 的地址# 查看code，有一个绿色的 clone or download, 我选的是httpsbranch:master点击这里可以带你去Hexo官方的配置文件介绍
+Next 配置 Next的配置文档为 themes/next/_config.yml 同样这里只介绍介个主要的配置项：
+menu 设置 # ---------------------------------------------------------------# Menu Settings# ---------------------------------------------------------------# When running the site in a subdirectory (e.g. domain.tld/blog), remove the leading slash (/archives -&amp;gt; archives)menu:home:/categories:/categories/# 启用分类tags:/tags/# 启用标签archives:/archives/# 启用归档， hexo 按时间归档about:/about/# 启用关于要启用这些 menu，需要 hexo 创建好这几个 page:
+$ hexo new page categories # 生成 source/categories/index.md $ hexo new page tags # 生成 source/tags/index.md $ hexo new page about # 生成 source/about/index.md archives是 hexo 会默认有的
+创建好之后这些page后，需要对tags和categories下的index.md稍作修改
+source/categories/index.md: --- title: categories date: 2017-08-11 16:49:50 type: &amp;#34;categories&amp;#34; comments: false --- source/tags/index.md: --- title: tags date: 2017-08-11 16:49:50 type: &amp;#34;tags&amp;#34; comments: false --- 修改scaffolds/post.md, 添加上
+tags: categories: 这两项，然后用 hexo new 创建文章后，在tags: 后添加 tag，在 categories: 后添加分类，就行了。单个 tag 或 分类，可以直接写，如果是多个的话，写成[a,b,c]这种形式。
+博客样式设置 # ---------------------------------------------------------------# Scheme Settings# ---------------------------------------------------------------# Schemes#scheme: Muse#scheme: Mist#scheme: Piscesscheme:GeminiNext官方给出了四种可选方案，博主把这四个都试了一遍，决定用第四个，Gemini。启用的方式就是去掉注释，把不要的注释掉。
+文章折叠 # Automatically Excerpt. Not recommend.# Please use &amp;lt;!-- more --&amp;gt; in the post to control excerpt accurately.auto_excerpt:enable:falselength:150默认是显示全文的。官方给出两个解决方案，一个是将 auto_excerpt 里的 enable 设置为 true。但是这种方式不推荐，会将你文章的格式去掉。官方推荐的做法是，在你文档中想要折叠提示&amp;quot;阅读全文&amp;quot;的地方加上&amp;lt;!--more--&amp;gt;。
+开启文章版权声明 # Declare license on postspost_copyright:enable:true# 把这个项设置为truelicense:CC BY-NC-SA 3.0license_url:https://creativecommons.org/licenses/by-nc-sa/3.0/开启之后，会在每一篇文章中显示版权声明。
+开启social network links # Social Links# Key is the link label showing to end users.# Value is the target link (E.g. GitHub: https://github.com/iissnan)social:# 去掉这里的注释#LinkLabel: LinkGitHub:你的github主页地址博主只加了github主页地址。其他的参见配置文档的说明。
+点击这里可以带你去Next官方的主题设置教程
+创建 Github Pages 首先要有一个 Github 账号。然后创建一个 repository。你可以在 Github 上看到 绿色的 new repository。
+点击之后进入创建页面：
+取一个名字，勾选 Initialize this repository with a README，然后点击绿色的创建。
+创建完之后，到 Settings 选项：
+到 Github Pages 那一项去：
+选择 master branch ，然后点击 save。然后你会看到一个你 Pages 主页的地址。这就是你以后的博客访问地址了。
+部署至 Github Pages 前面配置章节讲了如何配置 Hexo 的 repo，所以这时候，当我们准备好时，先执行 hexo clean 清掉之前的数据和页面，再执行 hexo generate 生产新的页面, 最后执行部署命令 hexo deploy，便成功部署到了 Github Pages。 即:
+$ hexo clean $ hexo generate $ hexo deploy Github Pages 有短时间的缓存，所以稍等片刻，访问我们的 Github Pages 页面，就可以看到博客页面啦。
+尾声 至此，我们便成功拥有了一个属于自己的博客。 可以将博客项目提交到 Github 管理，作为自己的博客备份，这样在可以使用网络和电脑的地方我们都可以方便的写博客了。
+此外，除了 Github 提供 Pages 这样的服务，国内的 Coding 也提供有 Coding Pages 可以用哦。
+</content>
+    </entry>
+    
+</search>
