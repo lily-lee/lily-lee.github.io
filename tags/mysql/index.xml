@@ -8,11 +8,11 @@
     <language>zh-CN</language>
     <lastBuildDate>Fri, 16 Apr 2021 15:38:15 +0800</lastBuildDate><atom:link href="https://lily-lee.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>MySQL事务</title>
-      <link>https://lily-lee.github.io/post/notes/mysql/transaction_1/</link>
+      <title>MySQL｜事务</title>
+      <link>https://lily-lee.github.io/post/notes/mysql/transaction/</link>
       <pubDate>Fri, 16 Apr 2021 15:38:15 +0800</pubDate>
       
-      <guid>https://lily-lee.github.io/post/notes/mysql/transaction_1/</guid>
+      <guid>https://lily-lee.github.io/post/notes/mysql/transaction/</guid>
       <description>&lt;h2 id=&#34;事务的概念&#34;&gt;事务的概念&lt;/h2&gt;
 &lt;h3 id=&#34;什么是事务&#34;&gt;什么是事务&lt;/h3&gt;
 &lt;p&gt;事务是指作为单个逻辑工作单元执行的一系列操作，这些操作要么完全被执行，要么完全不执行。&lt;/p&gt;

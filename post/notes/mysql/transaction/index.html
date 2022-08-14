@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> 
-    <title>MySQL事务 - Lily&#39;s Blog</title>
+    <title>MySQL｜事务 - Lily&#39;s Blog</title>
     <meta name="keywords" content="独立,博客,程序员,架构师,个人,思考,读书,笔记,技术,分享,Golang,Java">
     
-    <meta property="og:title" content="MySQL事务">
+    <meta property="og:title" content="MySQL｜事务">
     <meta property="og:site_name" content="Lily&#39;s Blog">
     <meta property="og:image" content="/img/author.jpg"> 
-    <meta name="title" content="MySQL事务 - Lily&#39;s Blog" />
+    <meta name="title" content="MySQL｜事务 - Lily&#39;s Blog" />
     <meta name="description" content="Lily&#39;s Blog | 博客 | 软件 | 架构 | Golang | Java "> 
     <link rel="shortcut icon" href="https://lily-lee.github.io/img/favicon.ico" />
     <link rel="apple-touch-icon" href="https://lily-lee.github.io/img/apple-touch-icon.png" />
@@ -103,8 +103,8 @@
   <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
     <header class="post-header">
       <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link" href="https://lily-lee.github.io/post/notes/mysql/transaction_1/" itemprop="url">
-          MySQL事务
+        <a class="post-title-link" href="https://lily-lee.github.io/post/notes/mysql/transaction/" itemprop="url">
+          MySQL｜事务
         </a>
       </h1>
       <div class="post-meta">
@@ -127,8 +127,8 @@
   <span class="post-meta-item-text">分类：</span>
   
     <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-      <a href="https://lily-lee.github.io/categories/%E7%AC%94%E8%AE%B0" itemprop="url" rel="index">
-        <span itemprop="name">笔记</span>
+      <a href="https://lily-lee.github.io/categories/%E6%8A%80%E6%9C%AF" itemprop="url" rel="index">
+        <span itemprop="name">技术</span>
       </a>
       &nbsp; 
     </span>
@@ -142,7 +142,7 @@
     <i class="fa fa-eye"></i>
 </span>
 <span class="post-meta-item-text">阅读：</span>
-<span class="leancloud-visitors-count">1365 字 ~3分钟</span>
+<span class="leancloud-visitors-count">1749 字 ~4分钟</span>
 </span>
       </div>
     </header>
@@ -179,15 +179,25 @@
 <h3 id="c---consistency-一致性">C - Consistency 一致性</h3>
 <p>一致性指事务操作前后，直到成功提交前，数据表中的数据不会发生变化。</p>
 <p><strong>事务开始前和结束后，数据库的完整性约束没有被破坏 。比如A向B转账，不可能A扣了钱，B却没收到。</strong></p>
-<p>数据库总是从一个一致性的状态转移到另一个一致性的状态。在前面的例子 中，一次性确保了，即使在执行第三、四条语句之间时系统崩溃，支票账户也不会损失200美元，因为事务始终没有提交，所以事务中所做的修改也不会保存到数据库中。</p>
+<p>数据库总是从一个一致性的状态转移到另一个一致性的状态。在前面的例子 中，一致性确保了，即使在执行第三、四条语句之间时系统崩溃，支票账户也不会损失200美元，因为事务始终没有提交，所以事务中所做的修改也不会保存到数据库中。</p>
 <h3 id="i---isolation-隔离性">I - Isolation 隔离性</h3>
-<p>隔离性指指一个事务在完成前对其他事务是不可见的。</p>
+<p>事务的隔离性指每个读写事务的对象对其他事务的操作对象能互相分离，即该事务提交前对其他事务都不可见。</p>
+<p>隔离性还有其他的称呼，如并发控制（concurrency control）、可串行化（serializability）、锁（locking）等。</p>
+<p>事务的隔离性通常使用锁来实现。支持事务的数据库系统提供了一种粒度锁（granular lock）的策略，允许事务仅锁住一个实体对象的子集，以此来提高事务之间的并发度。</p>
 <h3 id="d----durability-持久性">D -  Durability 持久性</h3>
-<p>持久性指一旦事务提交则会永久保存在数据库中。</p>
+<p>持久性指一旦事务提交，其结果是永久性的。</p>
 <h2 id="并发事务导致的问题">并发事务导致的问题</h2>
-<p>脏读：A事务读取到了B事务更新的数据，然后B回滚操作，那么A读到的数据是脏数据</p>
-<p>不可重复读：事务A多次读取同一数据，事务B在事务A多次读取的过程中对此数据做了更新，导致事务A多次读取同一数据的值不一样。</p>
-<p>幻读：事务A更新数据库的数据，更新过程中事务B向数据库插入了一条数据，A更新完数据之后发现还有一条记录没有改过来，就行发生了幻觉一样。</p>
+<p>多个事务并发处理同一个数据时，如果没有合理的隔离级别，会带来一些问题。</p>
+<h3 id="丢失更新">丢失更新</h3>
+<p>最后的更新覆盖了其他事务之前的更新，而事务之间并不知道，发生更新丢失。更新丢失，可以完全避免，应用对访问的数据加锁即可。</p>
+<h3 id="脏读">脏读</h3>
+<p>一个事务中未提交的数据叫做脏数据。脏读即在一个事务中读到了另一个事务中未提交的数据。</p>
+<p>例子：A事务读取到了B事务更新的数据，然后B回滚操作，那么A读到的数据是脏数据。</p>
+<h3 id="不可重复读">不可重复读</h3>
+<p>不可重复读是指在一个事务内多次读取同一数据集合，在这个事务还没有结束时，另外一个事务也访问该同一数据集合，并做了一些DML操作。在第一个事务中的两次读数据之间，由于第二个事务的修改，第一个事务两次读到的数据可能不同。</p>
+<p>例子：事务A多次读取同一数据，事务B在事务A多次读取的过程中对此数据做了更新，导致事务A多次读取同一数据的值不一样。</p>
+<h3 id="幻读">幻读</h3>
+<p>事务A更新数据库的数据，更新过程中事务B向数据库插入了一条数据，A更新完数据之后发现还有一条记录没有改过来，就行发生了幻觉一样。</p>
 <h2 id="事务的隔离级别">事务的隔离级别</h2>
 <table>
 <thead>
@@ -196,7 +206,6 @@
 <th style="text-align:center">脏读</th>
 <th style="text-align:center">不可重复读</th>
 <th style="text-align:center">幻读</th>
-<th style="text-align:center">锁</th>
 </tr>
 </thead>
 <tbody>
@@ -205,33 +214,27 @@
 <td style="text-align:center">✔️</td>
 <td style="text-align:center">✔️</td>
 <td style="text-align:center">✔️</td>
-<td style="text-align:center"></td>
 </tr>
 <tr>
 <td style="text-align:left">读已提交（Read Committed）</td>
 <td style="text-align:center">✖️</td>
 <td style="text-align:center">✔️</td>
 <td style="text-align:center">✔️</td>
-<td style="text-align:center">写：行锁</td>
 </tr>
 <tr>
-<td style="text-align:left">可重复读（Repeatable Read）</td>
+<td style="text-align:left">可重复读（Read Repeatable）</td>
 <td style="text-align:center">✖️</td>
 <td style="text-align:center">✖️</td>
 <td style="text-align:center">✔️</td>
-<td style="text-align:center">写：锁表</td>
 </tr>
 <tr>
 <td style="text-align:left">可串行化（Serializable）</td>
 <td style="text-align:center">✖️</td>
 <td style="text-align:center">✖️</td>
 <td style="text-align:center">✖️</td>
-<td style="text-align:center">读写：锁表</td>
 </tr>
 </tbody>
 </table>
-<p>MySQL默认的隔离级别为“可重复读”</p>
-<h2 id="mysql事务的实现原理">MySQL事务的实现原理</h2>
     </div>
     <footer class="post-footer">
       
@@ -246,6 +249,10 @@
 
       <div class="post-nav">
     <div class="post-nav-next post-nav-item">
+    
+        <a href="https://lily-lee.github.io/post/notes/golang/make_and_new/" rel="next" title="Go｜make 和 new 的区别">
+        <i class="fa fa-chevron-left"></i> Go｜make 和 new 的区别
+        </a>
     
     </div>
 
@@ -302,14 +309,14 @@
       <nav class="site-state motion-element">
     <div class="site-state-item site-state-posts">
       <a href="https://lily-lee.github.io/post/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">日志</span>
       </a>
     </div>
     <div class="site-state-item site-state-categories">    
         <a href="https://lily-lee.github.io/categories/">      
          
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         
         <span class="site-state-item-name">分类</span>
         
@@ -319,7 +326,7 @@
     <div class="site-state-item site-state-tags">
         <a href="https://lily-lee.github.io/tags/">
          
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">6</span>
         
         <span class="site-state-item-name">标签</span>
         </a>
@@ -362,9 +369,15 @@
         <li><a href="#d----durability-持久性">D -  Durability 持久性</a></li>
       </ul>
     </li>
-    <li><a href="#并发事务导致的问题">并发事务导致的问题</a></li>
+    <li><a href="#并发事务导致的问题">并发事务导致的问题</a>
+      <ul>
+        <li><a href="#丢失更新">丢失更新</a></li>
+        <li><a href="#脏读">脏读</a></li>
+        <li><a href="#不可重复读">不可重复读</a></li>
+        <li><a href="#幻读">幻读</a></li>
+      </ul>
+    </li>
     <li><a href="#事务的隔离级别">事务的隔离级别</a></li>
-    <li><a href="#mysql事务的实现原理">MySQL事务的实现原理</a></li>
   </ul>
 </nav></div>
     </div>

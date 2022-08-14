@@ -1,10 +1,30 @@
 <search>
     
      <entry>
-        <title>MySQL事务</title>
-        <url>https://lily-lee.github.io/post/notes/mysql/transaction_1/</url>
+        <title>Go｜make 和 new 的区别</title>
+        <url>https://lily-lee.github.io/post/notes/golang/make_and_new/</url>
         <categories>
-          <category>笔记</category>
+          <category>技术</category>
+        </categories>
+        <tags>
+          <tag>Go</tag><tag>Interview</tag>
+        </tags>
+        <content type="html"> 在Go中，make和new都可以用来初始化变量。那这两个内置函数在使用上的区别是什么呢？
+定义 先来看看这两个内置函数的定义：
+// The make built-in function allocates and initializes an object of type // slice, map, or chan (only). Like new, the first argument is a type, not a // value. Unlike new, make&amp;#39;s return type is the same as the type of its // argument, not a pointer to it. The specification of the result depends on // the type: //	Slice: The size specifies the length. The capacity of the slice is //	equal to its length. A second integer argument may be provided to //	specify a different capacity; it must be no smaller than the //	length. For example, make([]int, 0, 10) allocates an underlying array //	of size 10 and returns a slice of length 0 and capacity 10 that is //	backed by this underlying array. //	Map: An empty map is allocated with enough space to hold the //	specified number of elements. The size may be omitted, in which case //	a small starting size is allocated. //	Channel: The channel&amp;#39;s buffer is initialized with the specified //	buffer capacity. If zero, or the size is omitted, the channel is //	unbuffered. func make(t Type, size ...IntegerType) Type // The new built-in function allocates memory. The first argument is a type, // not a value, and the value returned is a pointer to a newly // allocated zero value of that type. func new(Type) *Type  go1.17.10 src/builtin/builtin.go
+ 相同点  都可以用来初始化变量 参数都是某个类型，而不是一个具体的值  不同点 从这两个内置函数的定义，我们能直观看出：
+ 参数不同  make可以传递多个参数，第一个是类型，第二个开始为int类型的数字 new只有一个参数，参数是类型   返回值不同  make初始化变量返回值类型 new初始化变量返回零值的指针类型   适用类型不同  make只用于map、slice和chan类型的初始化    make用于slice、map和chan类型 make用于初始化slice // 初始化一个长度为0的slice slice1 := make([]int, 0) // 初始化一个长度为0，容量为10的slice slice2 := make([]int, 0, 10) // 分配一个大小为10的底层数组并返回一个长度为0，容量为10的slice  make用于初始化slice的时候，有三个可用参数：
+ 第一个：slice的类型，必填参数 第二个：slice的长度，必填参数 第三个：slice的容量，不能比slice的长度小，非必填参数  make用于初始化map m1 := make(map[string]string) m2 := make(map[string]string, 10) make用于初始化map的时候，有两个可用参数：
+ 第一个：map的类型，必填参数 第二个：map的起始空间大小，非必填  当map的大小不指定的时候，会默认分配一个较小的起始空间。
+make用于初始化chan // 初始化一个不带缓冲的int类型的channel c1 := make(chan int) // 初始化一个带缓冲且大小为10的int类型的channel c2 := make(chan int, 10) make用于初始化channel的时候，有两个可用参数：
+ 第一个：chan的类型，必填参数 第二个：chan的缓冲大小，非必填 </content>
+    </entry>
+    
+     <entry>
+        <title>MySQL｜事务</title>
+        <url>https://lily-lee.github.io/post/notes/mysql/transaction/</url>
+        <categories>
+          <category>技术</category>
         </categories>
         <tags>
           <tag>MySQL</tag><tag>事务</tag>
@@ -23,21 +43,26 @@ UPDATE `accounts` set `balance` = `balance` &#43; 1000 where `name` = &amp;#39;�
 A - Atomicity 原子性 一个事务必须被视为一个不可分割的最小工作单元，整个事务是一个不可分割的整体，就像化学中的原子，是物质构成的基本单位。整个事务中的所有操作要么全部提交成功，要么全部失败回滚，对于一个事务来说，不可能只执行其中的一部分操作。这就是事务的原子性。
 C - Consistency 一致性 一致性指事务操作前后，直到成功提交前，数据表中的数据不会发生变化。
 事务开始前和结束后，数据库的完整性约束没有被破坏 。比如A向B转账，不可能A扣了钱，B却没收到。
-数据库总是从一个一致性的状态转移到另一个一致性的状态。在前面的例子 中，一次性确保了，即使在执行第三、四条语句之间时系统崩溃，支票账户也不会损失200美元，因为事务始终没有提交，所以事务中所做的修改也不会保存到数据库中。
-I - Isolation 隔离性 隔离性指指一个事务在完成前对其他事务是不可见的。
-D - Durability 持久性 持久性指一旦事务提交则会永久保存在数据库中。
-并发事务导致的问题 脏读：A事务读取到了B事务更新的数据，然后B回滚操作，那么A读到的数据是脏数据
-不可重复读：事务A多次读取同一数据，事务B在事务A多次读取的过程中对此数据做了更新，导致事务A多次读取同一数据的值不一样。
-幻读：事务A更新数据库的数据，更新过程中事务B向数据库插入了一条数据，A更新完数据之后发现还有一条记录没有改过来，就行发生了幻觉一样。
-事务的隔离级别    隔离级别 脏读 不可重复读 幻读 锁     读未提交（Read Uncommitted） ✔️ ✔️ ✔️    读已提交（Read Committed） ✖️ ✔️ ✔️ 写：行锁   可重复读（Repeatable Read） ✖️ ✖️ ✔️ 写：锁表   可串行化（Serializable） ✖️ ✖️ ✖️ 读写：锁表    MySQL默认的隔离级别为“可重复读”
-MySQL事务的实现原理</content>
+数据库总是从一个一致性的状态转移到另一个一致性的状态。在前面的例子 中，一致性确保了，即使在执行第三、四条语句之间时系统崩溃，支票账户也不会损失200美元，因为事务始终没有提交，所以事务中所做的修改也不会保存到数据库中。
+I - Isolation 隔离性 事务的隔离性指每个读写事务的对象对其他事务的操作对象能互相分离，即该事务提交前对其他事务都不可见。
+隔离性还有其他的称呼，如并发控制（concurrency control）、可串行化（serializability）、锁（locking）等。
+事务的隔离性通常使用锁来实现。支持事务的数据库系统提供了一种粒度锁（granular lock）的策略，允许事务仅锁住一个实体对象的子集，以此来提高事务之间的并发度。
+D - Durability 持久性 持久性指一旦事务提交，其结果是永久性的。
+并发事务导致的问题 多个事务并发处理同一个数据时，如果没有合理的隔离级别，会带来一些问题。
+丢失更新 最后的更新覆盖了其他事务之前的更新，而事务之间并不知道，发生更新丢失。更新丢失，可以完全避免，应用对访问的数据加锁即可。
+脏读 一个事务中未提交的数据叫做脏数据。脏读即在一个事务中读到了另一个事务中未提交的数据。
+例子：A事务读取到了B事务更新的数据，然后B回滚操作，那么A读到的数据是脏数据。
+不可重复读 不可重复读是指在一个事务内多次读取同一数据集合，在这个事务还没有结束时，另外一个事务也访问该同一数据集合，并做了一些DML操作。在第一个事务中的两次读数据之间，由于第二个事务的修改，第一个事务两次读到的数据可能不同。
+例子：事务A多次读取同一数据，事务B在事务A多次读取的过程中对此数据做了更新，导致事务A多次读取同一数据的值不一样。
+幻读 事务A更新数据库的数据，更新过程中事务B向数据库插入了一条数据，A更新完数据之后发现还有一条记录没有改过来，就行发生了幻觉一样。
+事务的隔离级别    隔离级别 脏读 不可重复读 幻读     读未提交（Read Uncommitted） ✔️ ✔️ ✔️   读已提交（Read Committed） ✖️ ✔️ ✔️   可重复读（Read Repeatable） ✖️ ✖️ ✔️   可串行化（Serializable） ✖️ ✖️ ✖️   </content>
     </entry>
     
      <entry>
         <title>Hexo &#43; Github Pages, 创建个人博客</title>
-        <url>https://lily-lee.github.io/post/notes/hexo/</url>
+        <url>https://lily-lee.github.io/post/notes/others/hexo/</url>
         <categories>
-          <category>笔记</category>
+          <category>Blog</category>
         </categories>
         <tags>
           <tag>hexo</tag><tag>github pages</tag>
@@ -77,6 +102,18 @@ $ hexo clean $ hexo generate $ hexo deploy Github Pages 有短时间的缓存，
 尾声 至此，我们便成功拥有了一个属于自己的博客。 可以将博客项目提交到 Github 管理，作为自己的博客备份，这样在可以使用网络和电脑的地方我们都可以方便的写博客了。
 此外，除了 Github 提供 Pages 这样的服务，国内的 Coding 也提供有 Coding Pages 可以用哦。
 </content>
+    </entry>
+    
+     <entry>
+        <title></title>
+        <url>https://lily-lee.github.io/post/notes/golang/concurrency_safety/</url>
+        <categories>
+          
+        </categories>
+        <tags>
+          
+        </tags>
+        <content type="html"> </content>
     </entry>
     
 </search>
