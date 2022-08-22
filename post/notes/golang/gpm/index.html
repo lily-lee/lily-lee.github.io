@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> 
-    <title>Go｜make 和 new 的区别 - Lily&#39;s Blog</title>
+    <title> - Lily&#39;s Blog</title>
     <meta name="keywords" content="独立,博客,程序员,架构师,个人,思考,读书,笔记,技术,分享,Golang,Java">
     
-    <meta property="og:title" content="Go｜make 和 new 的区别">
+    <meta property="og:title" content="">
     <meta property="og:site_name" content="Lily&#39;s Blog">
     <meta property="og:image" content="/img/author.jpg"> 
-    <meta name="title" content="Go｜make 和 new 的区别 - Lily&#39;s Blog" />
+    <meta name="title" content=" - Lily&#39;s Blog" />
     <meta name="description" content="Lily&#39;s Blog | 博客 | 软件 | 架构 | Golang | Java "> 
     <link rel="shortcut icon" href="https://lily-lee.github.io/img/favicon.ico" />
     <link rel="apple-touch-icon" href="https://lily-lee.github.io/img/apple-touch-icon.png" />
@@ -103,8 +103,8 @@
   <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
     <header class="post-header">
       <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link" href="https://lily-lee.github.io/post/notes/golang/make_and_new/" itemprop="url">
-          Go｜make 和 new 的区别
+        <a class="post-title-link" href="https://lily-lee.github.io/post/notes/golang/gpm/" itemprop="url">
+          
         </a>
       </h1>
       <div class="post-meta">
@@ -113,155 +113,40 @@
     <i class="fa fa-calendar-o"></i>
 </span>
 <span class="post-meta-item-text">时间：</span>
-<time itemprop="dateCreated" datetime="2016-03-22T13:04:35+08:00" content="2022-08-12">
-    2022-08-12
+<time itemprop="dateCreated" datetime="2016-03-22T13:04:35+08:00" content="0001-01-01">
+    0001-01-01
 </time>
 </span>
         
-
-  <span class="post-category" >
-  &nbsp; | &nbsp;
-  <span class="post-meta-item-icon">
-    <i class="fa fa-folder-o"></i>
-  </span>
-  <span class="post-meta-item-text">分类：</span>
-  
-    <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-      <a href="https://lily-lee.github.io/categories/%E6%8A%80%E6%9C%AF" itemprop="url" rel="index">
-        <span itemprop="name">技术</span>
-      </a>
-      &nbsp; 
-    </span>
-  
-</span>
-
-
          <span>
 &nbsp; | &nbsp;
 <span class="post-meta-item-icon">
     <i class="fa fa-eye"></i>
 </span>
 <span class="post-meta-item-text">阅读：</span>
-<span class="leancloud-visitors-count">922 字 ~2分钟</span>
+<span class="leancloud-visitors-count">0 字 ~0分钟</span>
 </span>
       </div>
     </header>
     <div class="post-body" itemprop="articleBody">
-      <p>在<code>Go</code>中，<code>make</code>和<code>new</code>都可以用来初始化变量。那这两个内置函数在使用上的区别是什么呢？</p>
-<h3 id="定义">定义</h3>
-<p>先来看看这两个内置函数的定义：</p>
-<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#228b22">// The make built-in function allocates and initializes an object of type
-</span><span style="color:#228b22">// slice, map, or chan (only). Like new, the first argument is a type, not a
-</span><span style="color:#228b22">// value. Unlike new, make&#39;s return type is the same as the type of its
-</span><span style="color:#228b22">// argument, not a pointer to it. The specification of the result depends on
-</span><span style="color:#228b22">// the type:
-</span><span style="color:#228b22">//	Slice: The size specifies the length. The capacity of the slice is
-</span><span style="color:#228b22">//	equal to its length. A second integer argument may be provided to
-</span><span style="color:#228b22">//	specify a different capacity; it must be no smaller than the
-</span><span style="color:#228b22">//	length. For example, make([]int, 0, 10) allocates an underlying array
-</span><span style="color:#228b22">//	of size 10 and returns a slice of length 0 and capacity 10 that is
-</span><span style="color:#228b22">//	backed by this underlying array.
-</span><span style="color:#228b22">//	Map: An empty map is allocated with enough space to hold the
-</span><span style="color:#228b22">//	specified number of elements. The size may be omitted, in which case
-</span><span style="color:#228b22">//	a small starting size is allocated.
-</span><span style="color:#228b22">//	Channel: The channel&#39;s buffer is initialized with the specified
-</span><span style="color:#228b22">//	buffer capacity. If zero, or the size is omitted, the channel is
-</span><span style="color:#228b22">//	unbuffered.
-</span><span style="color:#228b22"></span><span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#658b00">make</span>(t Type, size ...IntegerType) Type
-
-<span style="color:#228b22">// The new built-in function allocates memory. The first argument is a type,
-</span><span style="color:#228b22">// not a value, and the value returned is a pointer to a newly
-</span><span style="color:#228b22">// allocated zero value of that type.
-</span><span style="color:#228b22"></span><span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#658b00">new</span>(Type) *Type
-</code></pre></div><blockquote>
-<p>go1.17.10 src/builtin/builtin.go</p>
-</blockquote>
-<h3 id="相同点">相同点</h3>
-<ul>
-<li>都可以用来初始化变量</li>
-<li>参数都是某个类型，而不是一个具体的值</li>
-</ul>
-<h3 id="不同点">不同点</h3>
-<p>从这两个内置函数的定义，我们能直观看出：</p>
-<ul>
-<li>参数不同
-<ul>
-<li>make可以传递多个参数，第一个是类型，第二个开始为int类型的数字</li>
-<li>new只有一个参数，参数是类型</li>
-</ul>
-</li>
-<li>返回值不同
-<ul>
-<li>make初始化变量返回值类型</li>
-<li>new初始化变量返回零值的指针类型</li>
-</ul>
-</li>
-<li>适用类型不同
-<ul>
-<li>make只用于map、slice和chan类型的初始化</li>
-</ul>
-</li>
-</ul>
-<h3 id="make用于slicemap和chan类型">make用于slice、map和chan类型</h3>
-<h4 id="make用于初始化slice">make用于初始化slice</h4>
-<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#228b22">// 初始化一个长度为0的slice
-</span><span style="color:#228b22"></span>slice1 := <span style="color:#658b00">make</span>([]<span style="color:#00688b;font-weight:bold">int</span>, <span style="color:#b452cd">0</span>)
-
-<span style="color:#228b22">// 初始化一个长度为0，容量为10的slice
-</span><span style="color:#228b22"></span>slice2 := <span style="color:#658b00">make</span>([]<span style="color:#00688b;font-weight:bold">int</span>, <span style="color:#b452cd">0</span>, <span style="color:#b452cd">10</span>) <span style="color:#228b22">// 分配一个大小为10的底层数组并返回一个长度为0，容量为10的slice
-</span><span style="color:#228b22"></span>
-</code></pre></div><p>make用于初始化slice的时候，有三个可用参数：</p>
-<ul>
-<li>第一个：slice的类型，必填参数</li>
-<li>第二个：slice的长度，必填参数</li>
-<li>第三个：slice的容量，不能比slice的长度小，非必填参数</li>
-</ul>
-<h4 id="make用于初始化map">make用于初始化map</h4>
-<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">m1 := <span style="color:#658b00">make</span>(<span style="color:#8b008b;font-weight:bold">map</span>[<span style="color:#00688b;font-weight:bold">string</span>]<span style="color:#00688b;font-weight:bold">string</span>)
-
-m2 := <span style="color:#658b00">make</span>(<span style="color:#8b008b;font-weight:bold">map</span>[<span style="color:#00688b;font-weight:bold">string</span>]<span style="color:#00688b;font-weight:bold">string</span>, <span style="color:#b452cd">10</span>)
-</code></pre></div><p>make用于初始化map的时候，有两个可用参数：</p>
-<ul>
-<li>第一个：map的类型，必填参数</li>
-<li>第二个：map的起始空间大小，非必填</li>
-</ul>
-<p>当map的大小不指定的时候，会默认分配一个较小的起始空间。</p>
-<h4 id="make用于初始化chan">make用于初始化chan</h4>
-<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#228b22">// 初始化一个不带缓冲的int类型的channel
-</span><span style="color:#228b22"></span>c1 := <span style="color:#658b00">make</span>(<span style="color:#8b008b;font-weight:bold">chan</span> <span style="color:#00688b;font-weight:bold">int</span>)
-
-<span style="color:#228b22">// 初始化一个带缓冲且大小为10的int类型的channel
-</span><span style="color:#228b22"></span>c2 := <span style="color:#658b00">make</span>(<span style="color:#8b008b;font-weight:bold">chan</span> <span style="color:#00688b;font-weight:bold">int</span>, <span style="color:#b452cd">10</span>)
-</code></pre></div><p>make用于初始化channel的时候，有两个可用参数：</p>
-<ul>
-<li>第一个：chan的类型，必填参数</li>
-<li>第二个：chan的缓冲大小，非必填</li>
-</ul>
+      
     </div>
     <footer class="post-footer">
       
-<div class="post-tags">     
-     
-    <a href="https://lily-lee.github.io/tags/go" rel="tag" title="Go">#Go#</a>
-    
-    <a href="https://lily-lee.github.io/tags/interview" rel="tag" title="Interview">#Interview#</a>
-    
-</div>
-
 
       <div class="post-nav">
     <div class="post-nav-next post-nav-item">
     
-        <a href="https://lily-lee.github.io/post/notes/algorithms/binary_tree/" rel="next" title="二叉树">
-        <i class="fa fa-chevron-left"></i> 二叉树
+        <a href="https://lily-lee.github.io/post/notes/golang/goroutine/" rel="next" title="">
+        <i class="fa fa-chevron-left"></i> 
         </a>
     
     </div>
 
     <div class="post-nav-prev post-nav-item">
     
-        <a href="https://lily-lee.github.io/post/notes/mysql/transaction/" rel="prev" title="MySQL｜事务">
-        MySQL｜事务 <i class="fa fa-chevron-right"></i>
+        <a href="https://lily-lee.github.io/post/notes/golang/memory_escape/" rel="prev" title="">
+         <i class="fa fa-chevron-right"></i>
         </a>
     
     </div>
@@ -292,16 +177,7 @@ m2 := <span style="color:#658b00">make</span>(<span style="color:#8b008b;font-we
 <aside id="sidebar" class="sidebar">
   <div class="sidebar-inner">
 
-  <ul class="sidebar-nav motion-element">
-    <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-      文章目录
-    </li>
-    <li class="sidebar-nav-overview" data-target="site-overview">
-      站点概览
-    </li>
-  </ul>
-
-    <section class="site-overview sidebar-panel ">
+    <section class="site-overview sidebar-panel  sidebar-panel-active ">
       <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
     <img class="site-author-image" itemprop="image" src="https://lily-lee.github.io/images/avatar.jpg" alt="lilylee" />
     <p class="site-author-name" itemprop="name">lilylee</p>
@@ -311,7 +187,7 @@ m2 := <span style="color:#658b00">make</span>(<span style="color:#8b008b;font-we
       <nav class="site-state motion-element">
     <div class="site-state-item site-state-posts">
       <a href="https://lily-lee.github.io/post/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">日志</span>
       </a>
     </div>
@@ -353,23 +229,6 @@ m2 := <span style="color:#658b00">make</span>(<span style="color:#8b008b;font-we
       
     </section>
     
-<section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-    <div class="post-toc">
-        <div class="post-toc-content"><nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#定义">定义</a></li>
-        <li><a href="#相同点">相同点</a></li>
-        <li><a href="#不同点">不同点</a></li>
-        <li><a href="#make用于slicemap和chan类型">make用于slice、map和chan类型</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav></div>
-    </div>
-</section>
-
   </div>
 </aside>
 

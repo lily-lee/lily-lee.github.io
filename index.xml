@@ -6,7 +6,20 @@
     <description>Recent content on Lily&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 16 Aug 2022 23:38:15 +0800</lastBuildDate><atom:link href="https://lily-lee.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 20 Aug 2022 15:38:15 +0800</lastBuildDate><atom:link href="https://lily-lee.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go｜slice</title>
+      <link>https://lily-lee.github.io/post/notes/golang/slice/</link>
+      <pubDate>Sat, 20 Aug 2022 15:38:15 +0800</pubDate>
+      
+      <guid>https://lily-lee.github.io/post/notes/golang/slice/</guid>
+      <description>&lt;h3 id=&#34;前言&#34;&gt;前言&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;A slice is not an array&lt;/em&gt;. A slice &lt;em&gt;describes&lt;/em&gt; a piece of an array.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;slice&lt;/code&gt;是实际使用过程中最常用的一种数据类型。它是对数组的抽象。数组长度不变，而&lt;code&gt;slice&lt;/code&gt;是动态的，可以动态追加数据或者分割数据，使用起来更加灵活。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>二叉树</title>
       <link>https://lily-lee.github.io/post/notes/algorithms/binary_tree/</link>

@@ -1,0 +1,676 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> 
+    <title>Go｜slice - Lily&#39;s Blog</title>
+    <meta name="keywords" content="独立,博客,程序员,架构师,个人,思考,读书,笔记,技术,分享,Golang,Java">
+    
+    <meta property="og:title" content="Go｜slice">
+    <meta property="og:site_name" content="Lily&#39;s Blog">
+    <meta property="og:image" content="/img/author.jpg"> 
+    <meta name="title" content="Go｜slice - Lily&#39;s Blog" />
+    <meta name="description" content="Lily&#39;s Blog | 博客 | 软件 | 架构 | Golang | Java "> 
+    <link rel="shortcut icon" href="https://lily-lee.github.io/img/favicon.ico" />
+    <link rel="apple-touch-icon" href="https://lily-lee.github.io/img/apple-touch-icon.png" />
+    <link rel="apple-touch-icon-precomposed" href="https://lily-lee.github.io/img/apple-touch-icon.png" />
+    <link href="https://lily-lee.github.io/js/vendor/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+    
+    <link href="https://lily-lee.github.io/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="https://lily-lee.github.io/css/syntax.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: false, 
+    motion: true
+  };
+</script>
+</head>
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-Hans">
+<div class="container one-collumn sidebar-position-left page-home  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-meta  custom-logo ">
+
+  <div class="custom-logo-site-title">
+    <a href="https://lily-lee.github.io"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lily&#39;s Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Lily&#39;s personal blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+    <ul id="menu" class="menu">
+      
+      
+        <li class="menu-item ">
+          <a href="https://lily-lee.github.io/" rel="section">
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页
+          </a>
+        </li>
+      
+        <li class="menu-item ">
+          <a href="https://lily-lee.github.io/post/" rel="section">
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档
+          </a>
+        </li>
+      
+        <li class="menu-item ">
+          <a href="https://lily-lee.github.io/about/" rel="section">
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于
+          </a>
+        </li>
+      
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger"> <i class="menu-item-icon fa fa-search fa-fw"></i> <br /> 搜索</a>
+      </li>
+    </ul>
+    <div class="site-search">
+      <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+    </div>
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+<section id="posts" class="posts-expand">
+  <article class="post post-type-normal " itemscope itemtype="https://schema.org/Article">
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link" href="https://lily-lee.github.io/post/notes/golang/slice/" itemprop="url">
+          Go｜slice
+        </a>
+      </h1>
+      <div class="post-meta">
+        <span class="post-time">
+<span class="post-meta-item-icon">
+    <i class="fa fa-calendar-o"></i>
+</span>
+<span class="post-meta-item-text">时间：</span>
+<time itemprop="dateCreated" datetime="2016-03-22T13:04:35+08:00" content="2022-08-20">
+    2022-08-20
+</time>
+</span>
+        
+
+  <span class="post-category" >
+  &nbsp; | &nbsp;
+  <span class="post-meta-item-icon">
+    <i class="fa fa-folder-o"></i>
+  </span>
+  <span class="post-meta-item-text">分类：</span>
+  
+    <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+      <a href="https://lily-lee.github.io/categories/%E6%8A%80%E6%9C%AF" itemprop="url" rel="index">
+        <span itemprop="name">技术</span>
+      </a>
+      &nbsp; 
+    </span>
+  
+</span>
+
+
+         <span>
+&nbsp; | &nbsp;
+<span class="post-meta-item-icon">
+    <i class="fa fa-eye"></i>
+</span>
+<span class="post-meta-item-text">阅读：</span>
+<span class="leancloud-visitors-count">2447 字 ~5分钟</span>
+</span>
+      </div>
+    </header>
+    <div class="post-body" itemprop="articleBody">
+      <h3 id="前言">前言</h3>
+<blockquote>
+<p><em>A slice is not an array</em>. A slice <em>describes</em> a piece of an array.</p>
+</blockquote>
+<p><code>slice</code>是实际使用过程中最常用的一种数据类型。它是对数组的抽象。数组长度不变，而<code>slice</code>是动态的，可以动态追加数据或者分割数据，使用起来更加灵活。</p>
+<h3 id="基本用法">基本用法</h3>
+<h4 id="声明和初始化">声明和初始化</h4>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#8b008b;font-weight:bold">package</span> main
+
+<span style="color:#8b008b;font-weight:bold">import</span> <span style="color:#cd5555">&#34;fmt&#34;</span>
+
+<span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#008b45">main</span>() {
+  <span style="color:#8b008b;font-weight:bold">var</span> s []<span style="color:#00688b;font-weight:bold">int</span>
+  <span style="color:#8b008b;font-weight:bold">var</span> s1 = <span style="color:#658b00">make</span>([]<span style="color:#00688b;font-weight:bold">int</span>, <span style="color:#b452cd">0</span>)
+  s2 := <span style="color:#658b00">make</span>([]<span style="color:#00688b;font-weight:bold">int</span>, <span style="color:#b452cd">5</span>)
+  s3 := <span style="color:#658b00">make</span>([]<span style="color:#00688b;font-weight:bold">int</span>, <span style="color:#b452cd">5</span>, <span style="color:#b452cd">10</span>)
+  s4 := []<span style="color:#00688b;font-weight:bold">int</span>{<span style="color:#b452cd">1</span>, <span style="color:#b452cd">2</span>, <span style="color:#b452cd">3</span>, <span style="color:#b452cd">4</span>, <span style="color:#b452cd">5</span>}
+  
+  fmt.<span style="color:#008b45">Println</span>(s, <span style="color:#658b00">len</span>(s), <span style="color:#658b00">cap</span>(s)) <span style="color:#228b22">// [] 0 0
+</span><span style="color:#228b22"></span>  fmt.<span style="color:#008b45">Println</span>(s1, <span style="color:#658b00">len</span>(s1), <span style="color:#658b00">cap</span>(s1)) <span style="color:#228b22">// [] 0 0
+</span><span style="color:#228b22"></span>  fmt.<span style="color:#008b45">Println</span>(s2, <span style="color:#658b00">len</span>(s2), <span style="color:#658b00">cap</span>(s2)) <span style="color:#228b22">// [0 0 0 0 0] 5 5
+</span><span style="color:#228b22"></span>  fmt.<span style="color:#008b45">Println</span>(s3, <span style="color:#658b00">len</span>(s3), <span style="color:#658b00">cap</span>(s3)) <span style="color:#228b22">// [0 0 0 0 0] 5 10
+</span><span style="color:#228b22"></span>  fmt.<span style="color:#008b45">Println</span>(s4, <span style="color:#658b00">len</span>(s4), <span style="color:#658b00">cap</span>(s4)) <span style="color:#228b22">// [1 2 3 4 5] 5 5
+</span><span style="color:#228b22"></span>}
+</code></pre></div><h4 id="数据追加">数据追加</h4>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#008b45">sliceDemo</span>() {
+  s := <span style="color:#658b00">make</span>([]<span style="color:#00688b;font-weight:bold">int</span>, <span style="color:#b452cd">0</span>)
+  <span style="color:#8b008b;font-weight:bold">for</span> i := <span style="color:#b452cd">0</span>; i &lt; <span style="color:#b452cd">100</span>; i++ {
+    s = <span style="color:#658b00">append</span>(s, i)
+  }
+}
+</code></pre></div><h4 id="数据遍历和修改">数据遍历和修改</h4>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#008b45">sliceDemo</span>(s []<span style="color:#00688b;font-weight:bold">int</span>) {
+  <span style="color:#8b008b;font-weight:bold">for</span> i := <span style="color:#b452cd">0</span>; i &lt; <span style="color:#658b00">len</span>(s); i++ {
+    fmt.<span style="color:#008b45">Println</span>(s[i])
+    s[i]++
+  }
+  
+  <span style="color:#8b008b;font-weight:bold">for</span> i, v := <span style="color:#8b008b;font-weight:bold">range</span> s {
+    fmt.<span style="color:#008b45">Println</span>(i, v)
+  }
+}
+</code></pre></div><p>遍历<code>slice</code>的时候，需要注意一点，遍历过程中的<code>i</code>或者<code>v</code>都分别指向同一个地址空间，如果并发读数据或者按地址取值，会发生值覆盖的问题。</p>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#008b45">wrongUsageDemo</span>(s []<span style="color:#00688b;font-weight:bold">int</span>) {
+	m := <span style="color:#8b008b;font-weight:bold">map</span>[*<span style="color:#00688b;font-weight:bold">int</span>]<span style="color:#00688b;font-weight:bold">int</span>{}
+	<span style="color:#8b008b;font-weight:bold">for</span> i, v := <span style="color:#8b008b;font-weight:bold">range</span> s {
+		m[&amp;v] = i
+	}
+
+	fmt.<span style="color:#008b45">Println</span>(m) <span style="color:#228b22">// map[0xc0000182e8:8]
+</span><span style="color:#228b22"></span>
+	<span style="color:#8b008b;font-weight:bold">for</span> i := <span style="color:#b452cd">0</span>; i &lt; <span style="color:#b452cd">1000</span>; i++ {
+		<span style="color:#8b008b;font-weight:bold">go</span> <span style="color:#8b008b;font-weight:bold">func</span>() {
+			fmt.<span style="color:#008b45">Println</span>(i) <span style="color:#228b22">// 
+</span><span style="color:#228b22"></span>		}()
+	}
+
+	time.<span style="color:#008b45">Sleep</span>(time.Second*<span style="color:#b452cd">4</span>)
+}
+</code></pre></div><p>上面的是错误用法示例，上面的用法，无法得到自己想要的值。因为发生了值覆盖问题。</p>
+<p>正确的方式应该为：</p>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#008b45">correctWrongUsageDemo</span>(s []<span style="color:#00688b;font-weight:bold">int</span>) {
+  m := <span style="color:#8b008b;font-weight:bold">map</span>[*<span style="color:#00688b;font-weight:bold">int</span>]<span style="color:#00688b;font-weight:bold">int</span>{}
+  <span style="color:#8b008b;font-weight:bold">for</span> i, v := <span style="color:#8b008b;font-weight:bold">range</span> s {
+    m[&amp;s[i]] = i
+  }
+  
+  fmt.<span style="color:#008b45">Println</span>(m) <span style="color:#228b22">// map[0xc00010c0c0:0 0xc00010c0c8:1 0xc00010c0d0:2 0xc00010c0d8:3]
+</span><span style="color:#228b22"></span>  
+  <span style="color:#8b008b;font-weight:bold">for</span> i := <span style="color:#b452cd">0</span>; i &lt; <span style="color:#b452cd">10000</span>; i++ {
+    <span style="color:#8b008b;font-weight:bold">go</span> <span style="color:#8b008b;font-weight:bold">func</span>(i <span style="color:#00688b;font-weight:bold">int</span>) {
+      fmt.<span style="color:#008b45">Println</span>(i)
+    }(i)
+  }
+  
+  time.<span style="color:#008b45">Sleep</span>(time.Second * <span style="color:#b452cd">5</span>)
+}
+</code></pre></div><h4 id="数据分割">数据分割</h4>
+<p><code>s[startIndex:endIndex]</code> 截取数据，返回<code>[startIndex, endIndex)</code>数据，其中不包含<code>endIndex</code></p>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#008b45">sliceDemo</span>() {
+	<span style="color:#228b22">// case 1
+</span><span style="color:#228b22"></span>	s := []<span style="color:#00688b;font-weight:bold">int</span>{<span style="color:#b452cd">1</span>, <span style="color:#b452cd">2</span>, <span style="color:#b452cd">3</span>, <span style="color:#b452cd">4</span>, <span style="color:#b452cd">5</span>, <span style="color:#b452cd">6</span>}
+	s1 := s[<span style="color:#b452cd">1</span>:<span style="color:#b452cd">3</span>]
+	fmt.<span style="color:#008b45">Println</span>(s) <span style="color:#228b22">// [1 2 3 4 5 6]
+</span><span style="color:#228b22"></span>	fmt.<span style="color:#008b45">Println</span>(s1) <span style="color:#228b22">// [2 3]
+</span><span style="color:#228b22"></span>  
+	<span style="color:#228b22">// case 2
+</span><span style="color:#228b22"></span>	s[<span style="color:#b452cd">1</span>] = <span style="color:#b452cd">10</span>
+	fmt.<span style="color:#008b45">Println</span>(s) <span style="color:#228b22">// [1 10 3 4 5 6]
+</span><span style="color:#228b22"></span>	fmt.<span style="color:#008b45">Println</span>(s1) <span style="color:#228b22">// [10 3]
+</span><span style="color:#228b22"></span>	s1[<span style="color:#b452cd">0</span>] = <span style="color:#b452cd">20</span>
+	fmt.<span style="color:#008b45">Println</span>(s) <span style="color:#228b22">// [1 20 3 4 5 6]
+</span><span style="color:#228b22"></span>	fmt.<span style="color:#008b45">Println</span>(s1) <span style="color:#228b22">// [20 3]
+</span><span style="color:#228b22"></span>  
+	<span style="color:#228b22">// case 3
+</span><span style="color:#228b22"></span>	s = s[<span style="color:#b452cd">1</span>:<span style="color:#b452cd">3</span>]
+	fmt.<span style="color:#008b45">Println</span>(s) <span style="color:#228b22">// [20 3]
+</span><span style="color:#228b22"></span>	fmt.<span style="color:#008b45">Println</span>(s1) <span style="color:#228b22">// [20 3]
+</span><span style="color:#228b22"></span>	s[<span style="color:#b452cd">0</span>] = <span style="color:#b452cd">10</span>
+	fmt.<span style="color:#008b45">Println</span>(s) <span style="color:#228b22">// [10 3]
+</span><span style="color:#228b22"></span>	fmt.<span style="color:#008b45">Println</span>(s1) <span style="color:#228b22">// [10 3]
+</span><span style="color:#228b22"></span>  
+	<span style="color:#228b22">// case 4
+</span><span style="color:#228b22"></span>	<span style="color:#008b45">changeSlice</span>(s)
+	fmt.<span style="color:#008b45">Println</span>(s) <span style="color:#228b22">// [1 3]
+</span><span style="color:#228b22"></span>	fmt.<span style="color:#008b45">Println</span>(s1) <span style="color:#228b22">// [1 3]
+</span><span style="color:#228b22"></span>
+	<span style="color:#228b22">// case 5
+</span><span style="color:#228b22"></span>	fmt.<span style="color:#008b45">Println</span>(<span style="color:#658b00">cap</span>(s)) <span style="color:#228b22">// 5。为啥这里cap的结果是5而不是6呢？原始s的长度是6。case3的操作改变了s的cap
+</span><span style="color:#228b22"></span>	s2 := <span style="color:#658b00">append</span>(s, <span style="color:#b452cd">1</span>, <span style="color:#b452cd">2</span>, <span style="color:#b452cd">3</span>)
+	s2[<span style="color:#b452cd">0</span>] = <span style="color:#b452cd">11</span>
+	fmt.<span style="color:#008b45">Println</span>(s) <span style="color:#228b22">// [11 3]
+</span><span style="color:#228b22"></span>	fmt.<span style="color:#008b45">Println</span>(s1) <span style="color:#228b22">// [11 3]
+</span><span style="color:#228b22"></span>  
+	<span style="color:#228b22">// case 6
+</span><span style="color:#228b22"></span>	<span style="color:#008b45">appendSliceAndChage</span>(s)
+	fmt.<span style="color:#008b45">Println</span>(<span style="color:#658b00">cap</span>(s)) <span style="color:#228b22">// 5
+</span><span style="color:#228b22"></span>	fmt.<span style="color:#008b45">Println</span>(s) <span style="color:#228b22">// [11 999]
+</span><span style="color:#228b22"></span>	fmt.<span style="color:#008b45">Println</span>(s1) <span style="color:#228b22">// [11 999]
+</span><span style="color:#228b22"></span>}
+
+<span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#008b45">changeSlice</span>(s []<span style="color:#00688b;font-weight:bold">int</span>) {
+	s[<span style="color:#b452cd">0</span>] = <span style="color:#b452cd">1</span>
+}
+
+<span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#008b45">appendSliceAndChange</span>(s []<span style="color:#00688b;font-weight:bold">int</span>) {
+  s = <span style="color:#658b00">append</span>(s, <span style="color:#b452cd">1</span>)
+  s[<span style="color:#b452cd">0</span>] = <span style="color:#b452cd">999</span>
+}
+</code></pre></div><p><code>s1</code>和<code>s</code>指向的是同一个底层数组，当对<code>s[1]</code>做修改的时候，底层数组的值发生改变，因此<code>s1</code>对应的值<code>s1[0]</code>也发生改变。同样<code>s2</code>修改，也会影响到底层数组，因此<code>s</code>的同样位置的值也发生改变。</p>
+<p><code>case 5</code>的例子，<code>cap(2)</code>是<code>5</code>，<code>append</code>三个值后，长度刚好<code>5</code>，因此<code>s2</code>的底层数组还是指向同一个，改变<code>s2</code>，<code>s</code>和<code>s1</code>同样位置的值也被改变。关于<code>append</code>的机制后面会再讲。</p>
+<h4 id="数据传递">数据传递</h4>
+<p><code>slice</code>作为参数传递时，为值传递。上面<code>case 6</code>的例子，<code>s</code>作为参数传入<code>appendSliceAndChange</code>方法，方法内的<code>append</code>操作也会返回新的拷贝，不会改变<code>s</code>。但是因为<code>cap</code>没有改变， 方法内的<code>s</code>和参数指向的是同一个底层数组，修改某个值会影响到其他指向同样底层数组的切片相应元素的值。</p>
+<h3 id="并发安全">并发安全</h3>
+<p>多个<code>goroutine</code>同时向<code>slice</code>写数据，会发生索引覆盖导致数据无法全部写入的问题。因此<code>slice</code>是非并发安全的，下面的<code>demo</code>可以用于测试并发写：</p>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#008b45">concurrencyDemo</span>()  {
+	s := <span style="color:#658b00">make</span>([]<span style="color:#00688b;font-weight:bold">int</span>, <span style="color:#b452cd">0</span>)
+	wg := sync.WaitGroup{}
+	<span style="color:#8b008b;font-weight:bold">for</span> i := <span style="color:#b452cd">0</span>; i &lt; <span style="color:#b452cd">10000</span>; i++ {
+		wg.<span style="color:#008b45">Add</span>(<span style="color:#b452cd">1</span>)
+		<span style="color:#8b008b;font-weight:bold">go</span> <span style="color:#8b008b;font-weight:bold">func</span>(i <span style="color:#00688b;font-weight:bold">int</span>) {
+			<span style="color:#8b008b;font-weight:bold">defer</span> wg.<span style="color:#008b45">Done</span>()
+			s = <span style="color:#658b00">append</span>(s, i)
+		}(i)
+	}
+	wg.<span style="color:#008b45">Wait</span>()
+	fmt.<span style="color:#008b45">Println</span>(<span style="color:#658b00">len</span>(s)) <span style="color:#228b22">// 9962--&gt;或者其他值，无法保证稳定10000
+</span><span style="color:#228b22"></span>}
+</code></pre></div><p><code>slice</code>并发读是没问题的，但是仍需要注意上面小节说过的遍历的时候<code>value</code>指向同一地址空间问题。</p>
+<p><code>slice</code>并发写的问题如何解决呢？加锁是常用的做法：</p>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#008b45">concurrencyDemo2</span>()  {
+	mx := sync.Mutex{}
+	s := <span style="color:#658b00">make</span>([]<span style="color:#00688b;font-weight:bold">int</span>, <span style="color:#b452cd">0</span>)
+	wg := sync.WaitGroup{}
+	<span style="color:#8b008b;font-weight:bold">for</span> i := <span style="color:#b452cd">0</span>; i &lt; <span style="color:#b452cd">10000</span>; i++ {
+		wg.<span style="color:#008b45">Add</span>(<span style="color:#b452cd">1</span>)
+		<span style="color:#8b008b;font-weight:bold">go</span> <span style="color:#8b008b;font-weight:bold">func</span>(i <span style="color:#00688b;font-weight:bold">int</span>) {
+			<span style="color:#8b008b;font-weight:bold">defer</span> wg.<span style="color:#008b45">Done</span>() 
+			mx.<span style="color:#008b45">Lock</span>() <span style="color:#228b22">// 给资源加锁
+</span><span style="color:#228b22"></span>			<span style="color:#8b008b;font-weight:bold">defer</span> mx.<span style="color:#008b45">Unlock</span>() <span style="color:#228b22">// 操作完之后释放锁
+</span><span style="color:#228b22"></span>			s = <span style="color:#658b00">append</span>(s, i)
+		}(i)
+	}
+	wg.<span style="color:#008b45">Wait</span>()
+
+	fmt.<span style="color:#008b45">Println</span>(<span style="color:#658b00">len</span>(s)) <span style="color:#228b22">// 10000
+</span><span style="color:#228b22"></span>}
+</code></pre></div><h3 id="底层原理">底层原理</h3>
+<h4 id="定义">定义</h4>
+<blockquote>
+<p>go1.17.10   src/runtime/slice.go</p>
+</blockquote>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#8b008b;font-weight:bold">type</span> slice <span style="color:#8b008b;font-weight:bold">struct</span> {
+	array unsafe.Pointer
+	len   <span style="color:#00688b;font-weight:bold">int</span>
+	cap   <span style="color:#00688b;font-weight:bold">int</span>
+}
+</code></pre></div><blockquote>
+<p>go1.17.10    src/reflect/value.go</p>
+</blockquote>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#228b22">// SliceHeader is the runtime representation of a slice.
+</span><span style="color:#228b22">// It cannot be used safely or portably and its representation may
+</span><span style="color:#228b22">// change in a later release.
+</span><span style="color:#228b22">// Moreover, the Data field is not sufficient to guarantee the data
+</span><span style="color:#228b22">// it references will not be garbage collected, so programs must keep
+</span><span style="color:#228b22">// a separate, correctly typed pointer to the underlying data.
+</span><span style="color:#228b22"></span><span style="color:#8b008b;font-weight:bold">type</span> SliceHeader <span style="color:#8b008b;font-weight:bold">struct</span> {
+	Data <span style="color:#00688b;font-weight:bold">uintptr</span>
+	Len  <span style="color:#00688b;font-weight:bold">int</span>
+	Cap  <span style="color:#00688b;font-weight:bold">int</span>
+}
+</code></pre></div><p><code>SliceHeader</code>是<code>slice</code>的运行时表示。<code>runtime.slice.go</code>和<code>reflect.SliceHeader</code> 都定义了<code>slice</code>。笔者目前对于编译相关的知识知之甚少，再阅读了<a href="https://draveness.me/golang/docs/part2-foundation/ch03-datastructure/golang-array-and-slice/">32-切片</a>这篇文章之后了解到两者的关系是<code>SliceHeader</code>是编译之后用于运行时的结构体。但不管是从哪个，我们都能知道，<code>slice</code>底层是一个数组，数组是指针类型。因此我们修改<code>s[i]</code>的值指向同一底层数组的<code>slice</code>相应的值都会发生改变。</p>
+<h4 id="append">append</h4>
+<p><code>Go</code>使用<code>append</code>向<code>slice</code>追加元素。</p>
+<p>动态增加<code>slice</code>的代码，在<code>go1.17.10</code>中好几个地方都提到了。</p>
+<blockquote>
+<p>go1.17.10 src/cmd/compile/internal/ssagen/ssa.go</p>
+</blockquote>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#228b22">// append converts an OAPPEND node to SSA.
+</span><span style="color:#228b22">// If inplace is false, it converts the OAPPEND expression n to an ssa.Value,
+</span><span style="color:#228b22">// adds it to s, and returns the Value.
+</span><span style="color:#228b22">// If inplace is true, it writes the result of the OAPPEND expression n
+</span><span style="color:#228b22">// back to the slice being appended to, and returns nil.
+</span><span style="color:#228b22">// inplace MUST be set to false if the slice can be SSA&#39;d.
+</span><span style="color:#228b22"></span><span style="color:#8b008b;font-weight:bold">func</span> (s *state) <span style="color:#658b00">append</span>(n *ir.CallExpr, inplace <span style="color:#00688b;font-weight:bold">bool</span>) *ssa.Value {
+}
+</code></pre></div><blockquote>
+<p>go1.17.10   src/runtime/slice.go</p>
+</blockquote>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#228b22">// growslice handles slice growth during append.
+</span><span style="color:#228b22">// It is passed the slice element type, the old slice, and the desired new minimum capacity,
+</span><span style="color:#228b22">// and it returns a new slice with at least that capacity, with the old data
+</span><span style="color:#228b22">// copied into it.
+</span><span style="color:#228b22">// The new slice&#39;s length is set to the old slice&#39;s length,
+</span><span style="color:#228b22">// NOT to the new requested capacity.
+</span><span style="color:#228b22">// This is for codegen convenience. The old slice&#39;s length is used immediately
+</span><span style="color:#228b22">// to calculate where to write new values during an append.
+</span><span style="color:#228b22">// TODO: When the old backend is gone, reconsider this decision.
+</span><span style="color:#228b22">// The SSA backend might prefer the new length or to return only ptr/cap and save stack space.
+</span><span style="color:#228b22"></span><span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#008b45">growslice</span>(et *_type, old slice, cap <span style="color:#00688b;font-weight:bold">int</span>) slice {
+	<span style="color:#228b22">// ...
+</span><span style="color:#228b22"></span>
+	<span style="color:#8b008b;font-weight:bold">if</span> cap &lt; old.cap {
+		<span style="color:#658b00">panic</span>(<span style="color:#008b45">errorString</span>(<span style="color:#cd5555">&#34;growslice: cap out of range&#34;</span>))
+	}
+
+	<span style="color:#8b008b;font-weight:bold">if</span> et.size == <span style="color:#b452cd">0</span> {
+		<span style="color:#228b22">// append should not create a slice with nil pointer but non-zero len.
+</span><span style="color:#228b22"></span>		<span style="color:#228b22">// We assume that append doesn&#39;t need to preserve old.array in this case.
+</span><span style="color:#228b22"></span>		<span style="color:#8b008b;font-weight:bold">return</span> slice{unsafe.<span style="color:#008b45">Pointer</span>(&amp;zerobase), old.len, cap}
+	}
+
+	newcap := old.cap
+	doublecap := newcap + newcap
+	<span style="color:#8b008b;font-weight:bold">if</span> cap &gt; doublecap {
+		newcap = cap
+	} <span style="color:#8b008b;font-weight:bold">else</span> {
+		<span style="color:#8b008b;font-weight:bold">if</span> old.cap &lt; <span style="color:#b452cd">1024</span> {
+			newcap = doublecap
+		} <span style="color:#8b008b;font-weight:bold">else</span> {
+			<span style="color:#228b22">// Check 0 &lt; newcap to detect overflow
+</span><span style="color:#228b22"></span>			<span style="color:#228b22">// and prevent an infinite loop.
+</span><span style="color:#228b22"></span>			<span style="color:#8b008b;font-weight:bold">for</span> <span style="color:#b452cd">0</span> &lt; newcap &amp;&amp; newcap &lt; cap {
+				newcap += newcap / <span style="color:#b452cd">4</span>
+			}
+			<span style="color:#228b22">// Set newcap to the requested cap when
+</span><span style="color:#228b22"></span>			<span style="color:#228b22">// the newcap calculation overflowed.
+</span><span style="color:#228b22"></span>			<span style="color:#8b008b;font-weight:bold">if</span> newcap &lt;= <span style="color:#b452cd">0</span> {
+				newcap = cap
+			}
+		}
+	}
+
+	<span style="color:#8b008b;font-weight:bold">var</span> overflow <span style="color:#00688b;font-weight:bold">bool</span>
+  
+	<span style="color:#228b22">// ...
+</span><span style="color:#228b22"></span>  
+	<span style="color:#8b008b;font-weight:bold">if</span> overflow || capmem &gt; maxAlloc {
+		<span style="color:#658b00">panic</span>(<span style="color:#008b45">errorString</span>(<span style="color:#cd5555">&#34;growslice: cap out of range&#34;</span>))
+	}
+
+	<span style="color:#8b008b;font-weight:bold">var</span> p unsafe.Pointer
+	<span style="color:#8b008b;font-weight:bold">if</span> et.ptrdata == <span style="color:#b452cd">0</span> {
+		p = <span style="color:#008b45">mallocgc</span>(capmem, <span style="color:#8b008b;font-weight:bold">nil</span>, <span style="color:#8b008b;font-weight:bold">false</span>)
+		<span style="color:#228b22">// The append() that calls growslice is going to overwrite from old.len to cap (which will be the new length).
+</span><span style="color:#228b22"></span>		<span style="color:#228b22">// Only clear the part that will not be overwritten.
+</span><span style="color:#228b22"></span>		<span style="color:#008b45">memclrNoHeapPointers</span>(<span style="color:#008b45">add</span>(p, newlenmem), capmem-newlenmem)
+	} <span style="color:#8b008b;font-weight:bold">else</span> {
+		<span style="color:#228b22">// Note: can&#39;t use rawmem (which avoids zeroing of memory), because then GC can scan uninitialized memory.
+</span><span style="color:#228b22"></span>		p = <span style="color:#008b45">mallocgc</span>(capmem, et, <span style="color:#8b008b;font-weight:bold">true</span>)
+  }
+  
+  <span style="color:#228b22">// ....
+</span><span style="color:#228b22"></span>
+	<span style="color:#8b008b;font-weight:bold">return</span> slice{p, old.len, newcap}
+}
+</code></pre></div><blockquote>
+<p>go1.17.10    src/reflect/value.go</p>
+</blockquote>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#228b22">// grow grows the slice s so that it can hold extra more values, allocating
+</span><span style="color:#228b22">// more capacity if needed. It also returns the old and new slice lengths.
+</span><span style="color:#228b22"></span><span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#008b45">grow</span>(s Value, extra <span style="color:#00688b;font-weight:bold">int</span>) (Value, <span style="color:#00688b;font-weight:bold">int</span>, <span style="color:#00688b;font-weight:bold">int</span>) {
+}
+
+<span style="color:#228b22">// Append appends the values x to a slice s and returns the resulting slice.
+</span><span style="color:#228b22">// As in Go, each x&#39;s value must be assignable to the slice&#39;s element type.
+</span><span style="color:#228b22"></span><span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#008b45">Append</span>(s Value, x ...Value) Value {
+}
+
+<span style="color:#228b22">// AppendSlice appends a slice t to a slice s and returns the resulting slice.
+</span><span style="color:#228b22">// The slices s and t must have the same element type.
+</span><span style="color:#228b22"></span><span style="color:#8b008b;font-weight:bold">func</span> <span style="color:#008b45">AppendSlice</span>(s, t Value) Value {
+}
+</code></pre></div><p>上面提到的这些源码都描述了<code>slice</code> 动态增加的机制。</p>
+<p>从源码可以知道几点信息：</p>
+<div class="highlight"><pre style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">newcap := oldcap
+doublecap := newcap * newcap
+1. 当 cap &gt; doublecap: newcap = cap // cap足够，新slice的cap和老cap一致
+2. 当 cap &lt;= doublecap:
+				doublecap &lt; 1024:
+						newcap = doublecap // 原来的cap*2
+				else:
+						// Check 0 &lt; newcap to detect overflow
+						// and prevent an infinite loop.
+						for 0 &lt; newcap &amp;&amp; newcap &lt; cap {
+							newcap += newcap / 4
+						}
+						// Set newcap to the requested cap when
+						// the newcap calculation overflowed.
+						if newcap &lt;= 0 {
+							newcap = cap
+						}
+            
+3. append 之后的 slice 返回新的内存空间
+</code></pre></div><h3 id="后记">后记</h3>
+<p>阅读源码过程中，笔者很多地方也不太懂，希望能和大家多交流，大家一起进步。</p>
+<h3 id="参考资料">参考资料</h3>
+<blockquote>
+<p><a href="https://draveness.me/golang/docs/part2-foundation/ch03-datastructure/golang-array-and-slice/">Go语言设计与实现#3.2 切片</a></p>
+<p><a href="https://go.dev/blog/slices">Arrays, slices (and strings): The mechanics of &lsquo;append&rsquo;</a></p>
+<p><a href="https://go.dev/ref/spec#Slice_types">The Go Programming Language Specification#Slice Types</a></p>
+<p><a href="https://go.dev/doc/effective_go#arrays">Effective Go#array</a></p>
+<p><a href="https://go.dev/doc/effective_go#slices">Effective Go#slice</a></p>
+<p><a href="https://go.dev/blog/slices-intro">Go Slices: usage and internals</a></p>
+</blockquote>
+    </div>
+    <footer class="post-footer">
+      
+<div class="post-tags">     
+     
+    <a href="https://lily-lee.github.io/tags/go" rel="tag" title="Go">#Go#</a>
+    
+</div>
+
+
+      <div class="post-nav">
+    <div class="post-nav-next post-nav-item">
+    
+    </div>
+
+    <div class="post-nav-prev post-nav-item">
+    
+        <a href="https://lily-lee.github.io/post/notes/algorithms/binary_tree/" rel="prev" title="二叉树">
+        二叉树 <i class="fa fa-chevron-right"></i>
+        </a>
+    
+    </div>
+</div>
+      
+      
+      
+      
+
+
+
+
+
+
+    </footer>
+  </article>
+</section>
+
+          </div>
+        </div>
+        <div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+  <ul class="sidebar-nav motion-element">
+    <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+      文章目录
+    </li>
+    <li class="sidebar-nav-overview" data-target="site-overview">
+      站点概览
+    </li>
+  </ul>
+
+    <section class="site-overview sidebar-panel ">
+      <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <img class="site-author-image" itemprop="image" src="https://lily-lee.github.io/images/avatar.jpg" alt="lilylee" />
+    <p class="site-author-name" itemprop="name">lilylee</p>
+    <p class="site-description motion-element" itemprop="description"> 
+        I have cats and dogs</p>
+</div>
+      <nav class="site-state motion-element">
+    <div class="site-state-item site-state-posts">
+      <a href="https://lily-lee.github.io/post/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">日志</span>
+      </a>
+    </div>
+    <div class="site-state-item site-state-categories">    
+        <a href="https://lily-lee.github.io/categories/">      
+         
+        <span class="site-state-item-count">2</span>
+        
+        <span class="site-state-item-name">分类</span>
+        
+        </a>
+    </div>
+
+    <div class="site-state-item site-state-tags">
+        <a href="https://lily-lee.github.io/tags/">
+         
+        <span class="site-state-item-count">7</span>
+        
+        <span class="site-state-item-name">标签</span>
+        </a>
+    </div>
+</nav>
+      
+      
+<div class="links-of-author motion-element">
+    
+        <span class="links-of-author-item">
+        <a href="https://github.com/lily-lee/" target="_blank" title="GitHub">
+            <i class="fa fa-fw fa-github"></i>
+            GitHub
+        </a>
+        </span>
+    
+</div>
+
+
+      
+
+      
+    </section>
+    
+<section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+    <div class="post-toc">
+        <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#前言">前言</a></li>
+        <li><a href="#基本用法">基本用法</a></li>
+        <li><a href="#并发安全">并发安全</a></li>
+        <li><a href="#底层原理">底层原理</a></li>
+        <li><a href="#后记">后记</a></li>
+        <li><a href="#参考资料">参考资料</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div>
+</section>
+
+  </div>
+</aside>
+
+      </div>
+    </main>
+   
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  <span itemprop="copyrightYear">  &copy; 
+  2009 - 2022</span>
+  <span class="with-love"><i class="fa fa-heart"></i></span>
+  <span class="author" itemprop="copyrightHolder">Lily&#39;s Blog</span>
+</div>
+<div class="powered-by">
+  Powered by - <a class="theme-link" href="http://gohugo.io" target="_blank" title="hugo" >Hugo v0.82.0</a>
+</div>
+<div class="theme-info">
+  Theme by - <a class="theme-link" href="https://github.com/xtfly/hugo-theme-next" target="_blank"> NexT
+  </a>
+</div>
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+      <span id="scrollpercent"><span>0</span>%</span>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/vendor/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/vendor/fastclick/lib/fastclick.min.js?v=1.0.6"></script> 
+<script type="text/javascript" src="https://lily-lee.github.io/js/vendor/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/vendor/velocity/velocity.min.js?v=1.2.1"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/vendor/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="https://lily-lee.github.io/js/vendor/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+
+<script type="text/javascript" src="https://lily-lee.github.io/js/utils.js"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/motion.js"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/affix.js"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/schemes/pisces.js"></script>
+
+<script type="text/javascript" src="https://lily-lee.github.io/js/scrollspy.js"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/post-details.js"></script>
+<script type="text/javascript" src="https://lily-lee.github.io/js/toc.js"></script>
+
+<script type="text/javascript" src="https://lily-lee.github.io/js/bootstrap.js"></script>
+
+<script type="text/javascript" src="https://lily-lee.github.io/js/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'] ],
+      displayMath: [ ['$$','$$'] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { fonts: ["TeX"] }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML' async></script>
+</body>
+</html>
